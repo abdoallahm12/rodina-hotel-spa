@@ -31,8 +31,8 @@ export default function AboutSection() {
               />
               <div className="absolute -bottom-8 -right-8 w-48 h-48 rounded-2xl overflow-hidden border-4 border-background luxury-shadow hidden sm:block">
                 <img
-                  src="/images/hammam.png"
-                  alt="MH Hotel hammam spa"
+                  src="/images/room-classic.png"
+                  alt="MH Hotel elegant room"
                   className="w-full h-full object-cover"
                 />
               </div>

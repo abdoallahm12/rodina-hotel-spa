@@ -38,6 +38,18 @@ const visualAmenities = [
       "Pamper yourself at our full-service beauty salon offering manicures, pedicures, and bespoke beauty treatments in an elegant setting with premium products and expert stylists.",
   },
   {
+    image: "/images/bathroom-1.png",
+    title: "Luxury Bathrooms",
+    description:
+      "Sleek, contemporary bathrooms with premium fixtures, rainfall showers, illuminated mirrors, and soft ambient lighting. A spa-like experience in the privacy of your own room.",
+  },
+  {
+    image: "/images/bathroom-2.png",
+    title: "Stone Bath Suites",
+    description:
+      "Indulge in our stone-clad bathroom suites featuring warm earthy tones, glass-enclosed showers, and polished chrome accents. A perfect blend of natural materials and modern design.",
+  },
+  {
     image: "/images/rooftop-dining.png",
     title: "Rooftop Dining",
     description:
