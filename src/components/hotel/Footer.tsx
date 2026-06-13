@@ -10,6 +10,7 @@ import {
   Twitter,
   ArrowUp,
 } from "lucide-react";
+import { useSiteSettings } from "./SettingsProvider";
 
 const footerLinks = {
   hotel: [
@@ -35,13 +36,24 @@ const footerLinks = {
   ],
 };
 
-const socialLinks = [
-  { icon: Instagram, label: "Instagram", href: "#" },
-  { icon: Facebook, label: "Facebook", href: "#" },
-  { icon: Twitter, label: "Twitter", href: "#" },
-];
-
 export default function Footer() {
+  const { settings } = useSiteSettings();
+  const content = settings.content;
+  const contact = settings.contact;
+  const social = settings.social;
+  const hotel = settings.hotel;
+
+  // Build social links from settings
+  const socialLinks = [
+    ...(social?.instagram ? [{ icon: Instagram, label: "Instagram", href: social.instagram }] : []),
+    ...(social?.facebook ? [{ icon: Facebook, label: "Facebook", href: social.facebook }] : []),
+    ...(social?.whatsapp ? [{ icon: Phone, label: "WhatsApp", href: social.whatsapp }] : []),
+    ...(!social?.instagram && !social?.facebook ? [
+      { icon: Instagram, label: "Instagram", href: "#" },
+      { icon: Facebook, label: "Facebook", href: "#" },
+    ] : []),
+  ];
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -52,14 +64,13 @@ export default function Footer() {
       <div className="bg-gradient-to-r from-gold-dark via-gold to-gold-dark py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h3 className="text-3xl md:text-4xl font-[var(--font-playfair)] font-bold text-charcoal mb-4">
-            Ready to Experience Luxury?
+            {content?.footerCtaTitle || "Ready to Experience Luxury?"}
           </h3>
           <p className="text-charcoal/80 font-[var(--font-lato)] text-lg mb-6 max-w-xl mx-auto">
-            Book your stay today and discover why MH Hotel is the destination of
-            choice for discerning travelers worldwide.
+            {content?.footerCtaText || "Book your stay today and discover why MH Hotel is the destination of choice for discerning travelers worldwide."}
           </p>
           <button className="bg-charcoal text-gold px-8 py-3 rounded-full font-[var(--font-lato)] tracking-wider uppercase font-semibold hover:bg-charcoal/90 transition-colors">
-            Reserve Your Room
+            {content?.footerCtaButton || "Reserve Your Room"}
           </button>
         </div>
       </div>
@@ -72,32 +83,32 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center">
                 <span className="text-charcoal font-bold text-lg font-[var(--font-playfair)]">
-                  M
+                  {hotel?.logoLetter || "M"}
                 </span>
               </div>
               <div>
                 <span className="text-xl tracking-[0.3em] font-[var(--font-playfair)] font-bold text-gold">
-                  MH HOTEL
+                  {hotel?.name || "MH HOTEL"}
                 </span>
                 <p className="text-[10px] tracking-[0.5em] uppercase text-white/40">
-                  Luxury Redefined
+                  {hotel?.tagline || "Luxury Redefined"}
                 </p>
               </div>
             </div>
             <p className="text-white/60 font-[var(--font-lato)] leading-relaxed mb-6 max-w-sm">
-              Where timeless elegance meets modern luxury. Since 2009, MH Hotel
-              has been the pinnacle of sophisticated hospitality, offering
-              unparalleled experiences in the heart of the city.
+              {content?.footerDescription || "Where timeless elegance meets modern luxury. Since 2009, MH Hotel has been the pinnacle of sophisticated hospitality, offering unparalleled experiences in the heart of the city."}
             </p>
             <div className="flex gap-3">
-              {socialLinks.map((social) => (
+              {socialLinks.map((socialItem) => (
                 <a
-                  key={social.label}
-                  href={social.href}
+                  key={socialItem.label}
+                  href={socialItem.href}
                   className="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center text-gold/70 hover:text-gold hover:border-gold hover:bg-gold/10 transition-all"
-                  aria-label={social.label}
+                  aria-label={socialItem.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <social.icon className="w-4 h-4" />
+                  <socialItem.icon className="w-4 h-4" />
                 </a>
               ))}
             </div>
@@ -166,22 +177,22 @@ export default function Footer() {
       <Separator className="bg-white/10" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-white/40 text-sm font-[var(--font-lato)]">
-          &copy; {new Date().getFullYear()} MH Hotel. All rights reserved.
+          &copy; {new Date().getFullYear()} {hotel?.name || "MH Hotel"}. All rights reserved.
         </p>
         <div className="flex items-center gap-6">
           <a
-            href="tel:+1234567890"
+            href={`tel:${contact?.phone || "+1234567890"}`}
             className="text-white/40 hover:text-gold transition-colors text-sm font-[var(--font-lato)] flex items-center gap-2"
           >
             <Phone className="w-3 h-3" />
-            +1 (234) 567-890
+            {contact?.phone || "+1 (234) 567-890"}
           </a>
           <a
-            href="mailto:info@mhhotel.com"
+            href={`mailto:${contact?.email || "info@mhhotel.com"}`}
             className="text-white/40 hover:text-gold transition-colors text-sm font-[var(--font-lato)] flex items-center gap-2"
           >
             <Mail className="w-3 h-3" />
-            info@mhhotel.com
+            {contact?.email || "info@mhhotel.com"}
           </a>
         </div>
         <button

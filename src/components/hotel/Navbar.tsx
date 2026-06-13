@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useSiteSettings } from "./SettingsProvider";
 
 const navLinks = [
   { href: "#home", label: "Home" },
@@ -21,6 +22,7 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { settings } = useSiteSettings();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -46,7 +48,7 @@ export default function Navbar() {
             )}
           >
             <span className="text-charcoal font-bold text-lg font-[var(--font-playfair)]">
-              M
+              {settings.hotel?.logoLetter || "M"}
             </span>
           </div>
           <div className="flex flex-col">
@@ -56,7 +58,7 @@ export default function Navbar() {
                 scrolled ? "text-gold" : "text-white"
               )}
             >
-              MH HOTEL
+              {settings.hotel?.name || "MH HOTEL"}
             </span>
             <span
               className={cn(
@@ -64,7 +66,7 @@ export default function Navbar() {
                 scrolled ? "text-gold-light/70" : "text-white/60"
               )}
             >
-              Luxury Redefined
+              {settings.hotel?.tagline || "Luxury Redefined"}
             </span>
           </div>
         </a>
@@ -91,14 +93,14 @@ export default function Navbar() {
         {/* CTA + Phone */}
         <div className="hidden lg:flex items-center gap-4">
           <a
-            href="tel:+1234567890"
+            href={`tel:${settings.contact?.phone || "+1234567890"}`}
             className={cn(
               "flex items-center gap-2 text-sm transition-colors duration-300",
               scrolled ? "text-gold-light" : "text-white/70"
             )}
           >
             <Phone className="w-4 h-4" />
-            <span className="font-[var(--font-lato)]">+1 (234) 567-890</span>
+            <span className="font-[var(--font-lato)]">{settings.contact?.phone || "+1 (234) 567-890"}</span>
           </a>
           <Button
             asChild
@@ -127,11 +129,11 @@ export default function Navbar() {
             className="bg-charcoal border-gold/20 w-80"
           >
             <VisuallyHidden>
-              <h2>MH Hotel Navigation Menu</h2>
+              <h2>{settings.hotel?.name || "MH Hotel"} Navigation Menu</h2>
             </VisuallyHidden>
             <div className="flex items-center justify-between mb-8">
               <span className="text-gold text-xl tracking-[0.3em] font-[var(--font-playfair)] font-bold">
-                MH HOTEL
+                {settings.hotel?.name || "MH HOTEL"}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -156,11 +158,11 @@ export default function Navbar() {
                 </Button>
               </div>
               <a
-                href="tel:+1234567890"
+                href={`tel:${settings.contact?.phone || "+1234567890"}`}
                 className="flex items-center gap-2 text-gold-light mt-4 text-sm"
               >
                 <Phone className="w-4 h-4" />
-                +1 (234) 567-890
+                {settings.contact?.phone || "+1 (234) 567-890"}
               </a>
             </div>
           </SheetContent>

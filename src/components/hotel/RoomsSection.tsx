@@ -12,6 +12,7 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
+import { useSiteSettings } from "./SettingsProvider";
 
 const rooms = [
   {
@@ -135,6 +136,26 @@ const rooms = [
 ];
 
 export default function RoomsSection() {
+  const { settings } = useSiteSettings();
+  const content = settings.content;
+  const currency = settings.currency;
+
+  // Merge room prices from settings
+  const displayRooms = rooms.map((room) => {
+    const settingsRoom = settings.rooms?.find((r) => r.id === room.id);
+    if (settingsRoom) {
+      return {
+        ...room,
+        price: settingsRoom.price,
+        priceSingle: settingsRoom.priceSingle,
+        priceTriple: settingsRoom.priceTriple,
+        totalRooms: settingsRoom.totalRooms,
+        name: settingsRoom.name || room.name,
+      };
+    }
+    return room;
+  });
+
   return (
     <section id="rooms" className="py-24 bg-secondary/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -147,21 +168,20 @@ export default function RoomsSection() {
           className="text-center mb-16"
         >
           <p className="text-gold tracking-[0.4em] uppercase text-sm mb-4 font-[var(--font-lato)]">
-            Hébergement
+            {content?.roomsLabel || "Hébergement"}
           </p>
           <h2 className="text-4xl md:text-5xl font-[var(--font-playfair)] font-bold mb-4 text-foreground">
-            Chambres & <span className="gold-text">Suites</span>
+            {content?.roomsTitle1 || "Chambres &"} <span className="gold-text">{content?.roomsTitle2 || "Suites"}</span>
           </h2>
           <div className="w-16 h-[2px] bg-gold mx-auto mb-6" />
           <p className="text-muted-foreground max-w-2xl mx-auto font-[var(--font-lato)] text-lg">
-            Chaque chambre et suite est un sanctuaire de confort, conçu avec une
-            attention minutieuse aux détails et orné des plus beaux matériaux.
+            {content?.roomsSubtitle || "Chaque chambre et suite est un sanctuaire de confort, conçu avec une attention minutieuse aux détails et orné des plus beaux matériaux."}
           </p>
         </motion.div>
 
         {/* Room Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {rooms.map((room, i) => (
+          {displayRooms.map((room, i) => (
             <motion.div
               key={room.id}
               initial={{ opacity: 0, y: 40 }}
@@ -199,7 +219,7 @@ export default function RoomsSection() {
                   </div>
                   <div className="text-right">
                     <span className="text-gold text-3xl font-[var(--font-playfair)] font-bold">
-                      ${room.price}
+                      {currency?.symbol || "$"}{room.price}
                     </span>
                     <span className="text-white/60 text-sm font-[var(--font-lato)]">
                       /nuit
@@ -220,7 +240,7 @@ export default function RoomsSection() {
                   </span>
                   {room.priceSingle && (
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-charcoal/10 text-muted-foreground text-xs font-[var(--font-lato)]">
-                      Dès ${room.priceSingle}/pers.
+                      Dès {currency?.symbol || "$"}{room.priceSingle}/pers.
                     </span>
                   )}
                 </div>
@@ -244,7 +264,7 @@ export default function RoomsSection() {
 
                 {/* Tax notice */}
                 <p className="text-xs text-muted-foreground/70 font-[var(--font-lato)] mb-4">
-                  + 9% Taxes et frais
+                  + {currency?.taxRate || 9}% Taxes et frais
                 </p>
 
                 <Button className="w-full bg-charcoal text-gold-light hover:bg-charcoal/90 tracking-wider uppercase font-[var(--font-lato)] group/btn">

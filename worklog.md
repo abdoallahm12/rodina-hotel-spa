@@ -190,3 +190,48 @@ Stage Summary:
 - Gallery fully localized in French
 - Hero booking form dropdown updated with French room types
 - Zero errors, fully verified
+
+---
+Task ID: 7
+Agent: Main Agent
+Task: Create hidden admin dashboard for hotel website
+
+Work Log:
+- Created admin settings storage system (data/admin-settings.json):
+  - Hotel info, room prices, currency, social links, contact info, images, content text
+  - Password management with SHA-256 hashing
+  - Session management with 24h tokens
+  - Rate limiting: 3 failed attempts = 15 min block
+- Created 3 API routes:
+  - POST /api/admin/login - Authentication with rate limiting
+  - GET/PUT /api/admin/settings - Read/write settings (session-protected)
+  - POST /api/admin/password - Change password (session-protected)
+- Created login page at /admin-hotel:
+  - Password input with show/hide toggle
+  - Error messages with remaining attempts counter
+  - Block message after 3 failed attempts
+  - Default password: admin2024
+- Created dashboard at /admin-hotel/dashboard with 8 tabs:
+  - Hôtel: Name, tagline, logo letter, description
+  - Chambres: All 6 room types with editable prices & room counts
+  - Devise: Currency code, symbol, tax rate
+  - Réseaux Sociaux: Facebook, Instagram, WhatsApp, TikTok, YouTube
+  - Contact: Phone, email, address
+  - Images: 4 main images with preview thumbnails
+  - Contenu: All homepage text sections (Hero, About, Rooms, Footer)
+  - Mot de Passe: Change password form with current/new/confirm
+- Connected settings to live website components:
+  - Navbar: Hotel name, tagline, logo letter, phone number
+  - RoomsSection: Room prices, currency symbol, tax rate, section text
+  - Footer: Social links, contact info, CTA text, hotel name
+- Created SettingsProvider context for main site
+- Dashboard features: sidebar navigation, mobile responsive, save confirmation, live site preview link
+- Verified with Agent Browser: All 8 tabs functional, login flow works, rate limiting works, save works, main site unaffected
+
+Stage Summary:
+- Complete hidden admin panel at /admin-hotel (not visible in any nav/menu)
+- Password protected with brute-force prevention (3 fails = 15 min block)
+- 8 editable sections covering all hotel content
+- Settings persist in JSON file, changes reflect on main site
+- Default password: admin2024 (changeable from dashboard)
+- All verified with zero errors

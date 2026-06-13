@@ -1,0 +1,786 @@
+     1→"use client";
+     2→
+     3→import { useState, useEffect, createContext, useContext } from "react";
+     4→import { useRouter } from "next/navigation";
+     5→import type { AdminSettings } from "@/lib/admin-settings";
+     6→import {
+     7→  Hotel,
+     8→  BedDouble,
+     9→  Coins,
+    10→  Share2,
+    11→  Phone,
+    12→  Image,
+    13→  FileText,
+    14→  KeyRound,
+    15→  LogOut,
+    16→  Menu,
+    17→  X,
+    18→  ChevronRight,
+    19→} from "lucide-react";
+    20→import { Button } from "@/components/ui/button";
+    21→
+    22→type AdminTab =
+    23→  | "hotel"
+    24→  | "rooms"
+    25→  | "currency"
+    26→  | "social"
+    27→  | "contact"
+    28→  | "images"
+    29→  | "content"
+    30→  | "password";
+    31→
+    32→interface AdminContextType {
+    33→  settings: AdminSettings;
+    34→  setSettings: (s: AdminSettings) => void;
+    35→  refreshSettings: () => Promise<void>;
+    36→}
+    37→
+    38→export const AdminContext = createContext<AdminContextType>({
+    39→  settings: {} as AdminSettings,
+    40→  setSettings: () => {},
+    41→  refreshSettings: async () => {},
+    42→});
+    43→
+    44→export const useAdmin = () => useContext(AdminContext);
+    45→
+    46→const tabs: { id: AdminTab; label: string; icon: React.ElementType }[] = [
+    47→  { id: "hotel", label: "Hôtel", icon: Hotel },
+    48→  { id: "rooms", label: "Chambres", icon: BedDouble },
+    49→  { id: "currency", label: "Devise", icon: Coins },
+    50→  { id: "social", label: "Réseaux Sociaux", icon: Share2 },
+    51→  { id: "contact", label: "Contact", icon: Phone },
+    52→  { id: "images", label: "Images", icon: Image },
+    53→  { id: "content", label: "Contenu", icon: FileText },
+    54→  { id: "password", label: "Mot de Passe", icon: KeyRound },
+    55→];
+    56→
+    57→export default function DashboardLayout({
+    58→  children,
+    59→}: {
+    60→  children: React.ReactNode;
+    61→}) {
+    62→  const router = useRouter();
+    63→  const [settings, setSettings] = useState<AdminSettings>({} as AdminSettings);
+    64→  const [activeTab, setActiveTab] = useState<AdminTab>("hotel");
+    65→  const [sidebarOpen, setSidebarOpen] = useState(false);
+    66→  const [loading, setLoading] = useState(true);
+    67→  const [saving, setSaving] = useState(false);
+    68→  const [saveMessage, setSaveMessage] = useState("");
+    69→
+    70→  const refreshSettings = async () => {
+    71→    try {
+    72→      const res = await fetch("/api/admin/settings");
+    73→      if (res.ok) {
+    74→        const data = await res.json();
+    75→        setSettings(data);
+    76→      } else {
+    77→        router.push("/admin-hotel");
+    78→      }
+    79→    } catch {
+    80→      router.push("/admin-hotel");
+    81→    }
+    82→  };
+    83→
+    84→  useEffect(() => {
+    85→    const init = async () => {
+    86→      await refreshSettings();
+    87→      setLoading(false);
+    88→    };
+    89→    init();
+    90→  }, []);
+    91→
+    92→  const handleSave = async (partial: Partial<AdminSettings>) => {
+    93→    setSaving(true);
+    94→    setSaveMessage("");
+    95→    try {
+    96→      const res = await fetch("/api/admin/settings", {
+    97→        method: "PUT",
+    98→        headers: { "Content-Type": "application/json" },
+    99→        body: JSON.stringify(partial),
+   100→      });
+   101→      if (res.ok) {
+   102→        const data = await res.json();
+   103→        setSettings(data.settings);
+   104→        setSaveMessage("Enregistré avec succès !");
+   105→        setTimeout(() => setSaveMessage(""), 3000);
+   106→      }
+   107→    } catch {
+   108→      setSaveMessage("Erreur lors de l'enregistrement");
+   109→    } finally {
+   110→      setSaving(false);
+   111→    }
+   112→  };
+   113→
+   114→  const handleLogout = async () => {
+   115→    try {
+   116→      document.cookie = "admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+   117→      router.push("/admin-hotel");
+   118→    } catch {
+   119→      router.push("/admin-hotel");
+   120→    }
+   121→  };
+   122→
+   123→  if (loading) {
+   124→    return (
+   125→      <div className="min-h-screen bg-charcoal flex items-center justify-center">
+   126→        <div className="text-center">
+   127→          <div className="w-12 h-12 rounded-full gold-gradient flex items-center justify-center mx-auto mb-4 animate-pulse">
+   128→            <Hotel className="w-6 h-6 text-charcoal" />
+   129→          </div>
+   130→          <p className="text-white/50 font-[var(--font-lato)]">Chargement...</p>
+   131→        </div>
+   132→      </div>
+   133→    );
+   134→  }
+   135→
+   136→  return (
+   137→    <AdminContext.Provider value={{ settings, setSettings, refreshSettings }}>
+   138→      <div className="min-h-screen bg-[#0f1117] flex">
+   139→        {/* Sidebar Overlay (mobile) */}
+   140→        {sidebarOpen && (
+   141→          <div
+   142→            className="fixed inset-0 bg-black/60 z-40 lg:hidden"
+   143→            onClick={() => setSidebarOpen(false)}
+   144→          />
+   145→        )}
+   146→
+   147→        {/* Sidebar */}
+   148→        <aside
+   149→          className={`fixed lg:static top-0 left-0 h-full w-64 bg-[#161822] border-r border-gold/10 z-50 transition-transform duration-300 ${
+   150→            sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+   151→          }`}
+   152→        >
+   153→          <div className="p-5 border-b border-gold/10">
+   154→            <div className="flex items-center justify-between">
+   155→              <div className="flex items-center gap-3">
+   156→                <div className="w-9 h-9 rounded-lg gold-gradient flex items-center justify-center">
+   157→                  <span className="text-charcoal font-bold text-sm font-[var(--font-playfair)]">
+   158→                    {settings.hotel?.logoLetter || "M"}
+   159→                  </span>
+   160→                </div>
+   161→                <div>
+   162→                  <p className="text-gold font-[var(--font-playfair)] font-bold text-sm">
+   163→                    Admin
+   164→                  </p>
+   165→                  <p className="text-white/30 text-[10px] font-[var(--font-lato)]">
+   166→                    Panneau de contrôle
+   167→                  </p>
+   168→                </div>
+   169→              </div>
+   170→              <button
+   171→                onClick={() => setSidebarOpen(false)}
+   172→                className="lg:hidden text-white/50 hover:text-white"
+   173→              >
+   174→                <X className="w-5 h-5" />
+   175→              </button>
+   176→            </div>
+   177→          </div>
+   178→
+   179→          <nav className="p-3 space-y-1">
+   180→            {tabs.map((tab) => (
+   181→              <button
+   182→                key={tab.id}
+   183→                onClick={() => {
+   184→                  setActiveTab(tab.id);
+   185→                  setSidebarOpen(false);
+   186→                }}
+   187→                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all font-[var(--font-lato)] ${
+   188→                  activeTab === tab.id
+   189→                    ? "bg-gold/10 text-gold border border-gold/20"
+   190→                    : "text-white/50 hover:text-white/80 hover:bg-white/5 border border-transparent"
+   191→                }`}
+   192→              >
+   193→                <tab.icon className="w-4 h-4 flex-shrink-0" />
+   194→                <span className="flex-1 text-left">{tab.label}</span>
+   195→                {activeTab === tab.id && (
+   196→                  <ChevronRight className="w-3 h-3" />
+   197→                )}
+   198→              </button>
+   199→            ))}
+   200→          </nav>
+   201→
+   202→          <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-gold/10">
+   203→            <button
+   204→              onClick={handleLogout}
+   205→              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-red-400/70 hover:text-red-400 hover:bg-red-500/10 transition-all font-[var(--font-lato)]"
+   206→            >
+   207→              <LogOut className="w-4 h-4" />
+   208→              Déconnexion
+   209→            </button>
+   210→          </div>
+   211→        </aside>
+   212→
+   213→        {/* Main Content */}
+   214→        <div className="flex-1 min-h-screen">
+   215→          {/* Top Bar */}
+   216→          <header className="sticky top-0 z-30 bg-[#161822]/90 backdrop-blur-md border-b border-gold/10 px-4 sm:px-6 py-3">
+   217→            <div className="flex items-center justify-between">
+   218→              <div className="flex items-center gap-3">
+   219→                <button
+   220→                  onClick={() => setSidebarOpen(true)}
+   221→                  className="lg:hidden text-white/60 hover:text-white"
+   222→                >
+   223→                  <Menu className="w-5 h-5" />
+   224→                </button>
+   225→                <h2 className="text-white font-[var(--font-playfair)] font-bold">
+   226→                  {tabs.find((t) => t.id === activeTab)?.label}
+   227→                </h2>
+   228→              </div>
+   229→              <div className="flex items-center gap-3">
+   230→                {saveMessage && (
+   231→                  <span className="text-green-400 text-xs font-[var(--font-lato)] animate-pulse">
+   232→                    {saveMessage}
+   233→                  </span>
+   234→                )}
+   235→                <a
+   236→                  href="/"
+   237→                  target="_blank"
+   238→                  className="text-white/40 hover:text-gold text-xs font-[var(--font-lato)] transition-colors"
+   239→                >
+   240→                  Voir le site →
+   241→                </a>
+   242→              </div>
+   243→            </div>
+   244→          </header>
+   245→
+   246→          {/* Page Content */}
+   247→          <main className="p-4 sm:p-6 max-w-5xl">
+   248→            <AdminPanelRouter
+   249→              activeTab={activeTab}
+   250→              saving={saving}
+   251→              onSave={handleSave}
+   252→            />
+   253→          </main>
+   254→        </div>
+   255→      </div>
+   256→    </AdminContext.Provider>
+   257→  );
+   258→}
+   259→
+   260→// Router that renders the correct tab
+   261→function AdminPanelRouter({
+   262→  activeTab,
+   263→  saving,
+   264→  onSave,
+   265→}: {
+   266→  activeTab: AdminTab;
+   267→  saving: boolean;
+   268→  onSave: (partial: Partial<AdminSettings>) => Promise<void>;
+   269→}) {
+   270→  const { settings } = useAdmin();
+   271→
+   272→  const props = { settings, saving, onSave };
+   273→
+   274→  switch (activeTab) {
+   275→    case "hotel":
+   276→      return <HotelPanel {...props} />;
+   277→    case "rooms":
+   278→      return <RoomsPanel {...props} />;
+   279→    case "currency":
+   280→      return <CurrencyPanel {...props} />;
+   281→    case "social":
+   282→      return <SocialPanel {...props} />;
+   283→    case "contact":
+   284→      return <ContactPanel {...props} />;
+   285→    case "images":
+   286→      return <ImagesPanel {...props} />;
+   287→    case "content":
+   288→      return <ContentPanel {...props} />;
+   289→    case "password":
+   290→      return <PasswordPanel />;
+   291→    default:
+   292→      return <HotelPanel {...props} />;
+   293→  }
+   294→}
+   295→
+   296→// ============ PANEL COMPONENTS ============
+   297→
+   298→function SaveButton({ saving, onClick }: { saving: boolean; onClick: () => void }) {
+   299→  return (
+   300→    <Button
+   301→      onClick={onClick}
+   302→      disabled={saving}
+   303→      className="gold-gradient text-charcoal font-semibold tracking-wider uppercase hover:opacity-90 font-[var(--font-lato)] text-sm"
+   304→    >
+   305→      {saving ? "Enregistrement..." : "Enregistrer"}
+   306→    </Button>
+   307→  );
+   308→}
+   309→
+   310→function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
+   311→  return (
+   312→    <div className="bg-[#1a1d2e] border border-gold/10 rounded-xl p-5 mb-6">
+   313→      <h3 className="text-gold font-[var(--font-playfair)] font-bold mb-4">{title}</h3>
+   314→      {children}
+   315→    </div>
+   316→  );
+   317→}
+   318→
+   319→function FormField({
+   320→  label,
+   321→  value,
+   322→  onChange,
+   323→  type = "text",
+   324→  placeholder,
+   325→}: {
+   326→  label: string;
+   327→  value: string | number;
+   328→  onChange: (val: string) => void;
+   329→  type?: string;
+   330→  placeholder?: string;
+   331→}) {
+   332→  return (
+   333→    <div className="space-y-1.5">
+   334→      <label className="text-white/50 text-xs tracking-wider uppercase font-[var(--font-lato)]">
+   335→        {label}
+   336→      </label>
+   337→      <Input
+   338→        type={type}
+   339→        value={value}
+   340→        onChange={(e) => onChange(e.target.value)}
+   341→        placeholder={placeholder}
+   342→        className="bg-white/5 border-gold/15 text-white hover:border-gold/30 focus:border-gold/50 font-[var(--font-lato)] text-sm"
+   343→      />
+   344→    </div>
+   345→  );
+   346→}
+   347→
+   348→// --- HOTEL PANEL ---
+   349→function HotelPanel({
+   350→  settings,
+   351→  saving,
+   352→  onSave,
+   353→}: {
+   354→  settings: AdminSettings;
+   355→  saving: boolean;
+   356→  onSave: (p: Partial<AdminSettings>) => Promise<void>;
+   357→}) {
+   358→  const [form, setForm] = useState(settings.hotel || {});
+   359→
+   360→  useEffect(() => {
+   361→    setForm(settings.hotel || {});
+   362→  }, [settings.hotel]);
+   363→
+   364→  const handleSave = () => onSave({ hotel: form });
+   365→
+   366→  return (
+   367→    <>
+   368→      <SectionCard title="Informations de l'Hôtel">
+   369→        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+   370→          <FormField label="Nom de l'hôtel" value={form.name || ""} onChange={(v) => setForm({ ...form, name: v })} placeholder="MH HOTEL" />
+   371→          <FormField label="Slogan" value={form.tagline || ""} onChange={(v) => setForm({ ...form, tagline: v })} placeholder="Luxury Redefined" />
+   372→          <FormField label="Lettre du logo" value={form.logoLetter || ""} onChange={(v) => setForm({ ...form, logoLetter: v })} placeholder="M" />
+   373→        </div>
+   374→        <div className="mt-4">
+   375→          <FormField label="Description" value={form.description || ""} onChange={(v) => setForm({ ...form, description: v })} placeholder="Description de l'hôtel..." />
+   376→        </div>
+   377→      </SectionCard>
+   378→      <div className="flex justify-end">
+   379→        <SaveButton saving={saving} onClick={handleSave} />
+   380→      </div>
+   381→    </>
+   382→  );
+   383→}
+   384→
+   385→// --- ROOMS PANEL ---
+   386→function RoomsPanel({
+   387→  settings,
+   388→  saving,
+   389→  onSave,
+   390→}: {
+   391→  settings: AdminSettings;
+   392→  saving: boolean;
+   393→  onSave: (p: Partial<AdminSettings>) => Promise<void>;
+   394→}) {
+   395→  const [rooms, setRooms] = useState(settings.rooms || []);
+   396→
+   397→  useEffect(() => {
+   398→    setRooms(settings.rooms || []);
+   399→  }, [settings.rooms]);
+   400→
+   401→  const updateRoom = (index: number, field: string, value: string | number) => {
+   402→    const updated = [...rooms];
+   403→    updated[index] = { ...updated[index], [field]: value };
+   404→    setRooms(updated);
+   405→  };
+   406→
+   407→  const handleSave = () => onSave({ rooms });
+   408→
+   409→  return (
+   410→    <>
+   411→      {rooms.map((room, i) => (
+   412→        <SectionCard key={room.id} title={`${room.name} (${room.id})`}>
+   413→          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+   414→            <FormField label="Nom" value={room.name} onChange={(v) => updateRoom(i, "name", v)} />
+   415→            <FormField
+   416→              label={`Prix/nuit (${settings.currency?.symbol || "$"})`}
+   417→              value={room.price}
+   418→              type="number"
+   419→              onChange={(v) => updateRoom(i, "price", Number(v))}
+   420→            />
+   421→            {room.priceSingle !== undefined && (
+   422→              <FormField
+   423→                label="Prix 1 pers."
+   424→                value={room.priceSingle}
+   425→                type="number"
+   426→                onChange={(v) => updateRoom(i, "priceSingle", Number(v))}
+   427→              />
+   428→            )}
+   429→            {room.priceTriple !== undefined && (
+   430→              <FormField
+   431→                label="Prix 3 pers."
+   432→                value={room.priceTriple}
+   433→                type="number"
+   434→                onChange={(v) => updateRoom(i, "priceTriple", Number(v))}
+   435→              />
+   436→            )}
+   437→            <FormField
+   438→              label="Nombre de chambres"
+   439→              value={room.totalRooms}
+   440→              type="number"
+   441→              onChange={(v) => updateRoom(i, "totalRooms", Number(v))}
+   442→            />
+   443→          </div>
+   444→        </SectionCard>
+   445→      ))}
+   446→      <div className="flex justify-end">
+   447→        <SaveButton saving={saving} onClick={handleSave} />
+   448→      </div>
+   449→    </>
+   450→  );
+   451→}
+   452→
+   453→// --- CURRENCY PANEL ---
+   454→function CurrencyPanel({
+   455→  settings,
+   456→  saving,
+   457→  onSave,
+   458→}: {
+   459→  settings: AdminSettings;
+   460→  saving: boolean;
+   461→  onSave: (p: Partial<AdminSettings>) => Promise<void>;
+   462→}) {
+   463→  const [form, setForm] = useState(settings.currency || { code: "USD", symbol: "$", taxRate: 9 });
+   464→
+   465→  useEffect(() => {
+   466→    setForm(settings.currency || { code: "USD", symbol: "$", taxRate: 9 });
+   467→  }, [settings.currency]);
+   468→
+   469→  const handleSave = () => onSave({ currency: form });
+   470→
+   471→  return (
+   472→    <>
+   473→      <SectionCard title="Devise & Taxes">
+   474→        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+   475→          <FormField label="Code devise" value={form.code} onChange={(v) => setForm({ ...form, code: v })} placeholder="USD" />
+   476→          <FormField label="Symbole" value={form.symbol} onChange={(v) => setForm({ ...form, symbol: v })} placeholder="$" />
+   477→          <FormField label="Taux de taxe (%)" value={form.taxRate} type="number" onChange={(v) => setForm({ ...form, taxRate: Number(v) })} />
+   478→        </div>
+   479→      </SectionCard>
+   480→      <div className="flex justify-end">
+   481→        <SaveButton saving={saving} onClick={handleSave} />
+   482→      </div>
+   483→    </>
+   484→  );
+   485→}
+   486→
+   487→// --- SOCIAL PANEL ---
+   488→function SocialPanel({
+   489→  settings,
+   490→  saving,
+   491→  onSave,
+   492→}: {
+   493→  settings: AdminSettings;
+   494→  saving: boolean;
+   495→  onSave: (p: Partial<AdminSettings>) => Promise<void>;
+   496→}) {
+   497→  const [form, setForm] = useState(settings.social || {});
+   498→
+   499→  useEffect(() => {
+   500→    setForm(settings.social || {});
+   501→  }, [settings.social]);
+   502→
+   503→  const handleSave = () => onSave({ social: form });
+   504→
+   505→  return (
+   506→    <>
+   507→      <SectionCard title="Réseaux Sociaux">
+   508→        <div className="space-y-4">
+   509→          <FormField label="Facebook" value={form.facebook || ""} onChange={(v) => setForm({ ...form, facebook: v })} placeholder="https://facebook.com/..." />
+   510→          <FormField label="Instagram" value={form.instagram || ""} onChange={(v) => setForm({ ...form, instagram: v })} placeholder="https://instagram.com/..." />
+   511→          <FormField label="WhatsApp" value={form.whatsapp || ""} onChange={(v) => setForm({ ...form, whatsapp: v })} placeholder="https://wa.me/..." />
+   512→          <FormField label="TikTok" value={form.tiktok || ""} onChange={(v) => setForm({ ...form, tiktok: v })} placeholder="https://tiktok.com/..." />
+   513→          <FormField label="YouTube" value={form.youtube || ""} onChange={(v) => setForm({ ...form, youtube: v })} placeholder="https://youtube.com/..." />
+   514→        </div>
+   515→      </SectionCard>
+   516→      <div className="flex justify-end">
+   517→        <SaveButton saving={saving} onClick={handleSave} />
+   518→      </div>
+   519→    </>
+   520→  );
+   521→}
+   522→
+   523→// --- CONTACT PANEL ---
+   524→function ContactPanel({
+   525→  settings,
+   526→  saving,
+   527→  onSave,
+   528→}: {
+   529→  settings: AdminSettings;
+   530→  saving: boolean;
+   531→  onSave: (p: Partial<AdminSettings>) => Promise<void>;
+   532→}) {
+   533→  const [form, setForm] = useState(settings.contact || {});
+   534→
+   535→  useEffect(() => {
+   536→    setForm(settings.contact || {});
+   537→  }, [settings.contact]);
+   538→
+   539→  const handleSave = () => onSave({ contact: form });
+   540→
+   541→  return (
+   542→    <>
+   543→      <SectionCard title="Informations de Contact">
+   544→        <div className="space-y-4">
+   545→          <FormField label="Téléphone" value={form.phone || ""} onChange={(v) => setForm({ ...form, phone: v })} placeholder="+1 (234) 567-890" />
+   546→          <FormField label="Email" value={form.email || ""} onChange={(v) => setForm({ ...form, email: v })} placeholder="info@mhhotel.com" />
+   547→          <FormField label="Adresse" value={form.address || ""} onChange={(v) => setForm({ ...form, address: v })} placeholder="City Center, Main Boulevard" />
+   548→        </div>
+   549→      </SectionCard>
+   550→      <div className="flex justify-end">
+   551→        <SaveButton saving={saving} onClick={handleSave} />
+   552→      </div>
+   553→    </>
+   554→  );
+   555→}
+   556→
+   557→// --- IMAGES PANEL ---
+   558→function ImagesPanel({
+   559→  settings,
+   560→  saving,
+   561→  onSave,
+   562→}: {
+   563→  settings: AdminSettings;
+   564→  saving: boolean;
+   565→  onSave: (p: Partial<AdminSettings>) => Promise<void>;
+   566→}) {
+   567→  const [form, setForm] = useState(settings.images || {});
+   568→
+   569→  useEffect(() => {
+   570→    setForm(settings.images || {});
+   571→  }, [settings.images]);
+   572→
+   573→  const handleSave = () => onSave({ images: form });
+   574→
+   575→  const imageFields = [
+   576→    { key: "heroBg", label: "Image Hero (arrière-plan)" },
+   577→    { key: "aboutMain", label: "Image principale (À propos)" },
+   578→    { key: "aboutInset", label: "Image secondaire (À propos)" },
+   579→    { key: "spaMain", label: "Image Spa" },
+   580→  ];
+   581→
+   582→  return (
+   583→    <>
+   584→      <SectionCard title="Images Principales">
+   585→        <div className="space-y-4">
+   586→          {imageFields.map((field) => (
+   587→            <div key={field.key} className="space-y-1.5">
+   588→              <label className="text-white/50 text-xs tracking-wider uppercase font-[var(--font-lato)]">
+   589→                {field.label}
+   590→              </label>
+   591→              <div className="flex items-center gap-3">
+   592→                {form[field.key as keyof typeof form] && (
+   593→                  <div className="w-16 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-gold/10">
+   594→                    <img
+   595→                      src={form[field.key as keyof typeof form] as string}
+   596→                      alt={field.label}
+   597→                      className="w-full h-full object-cover"
+   598→                    />
+   599→                  </div>
+   600→                )}
+   601→                <Input
+   602→                  value={(form[field.key as keyof typeof form] as string) || ""}
+   603→                  onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
+   604→                  placeholder="/images/example.png"
+   605→                  className="bg-white/5 border-gold/15 text-white hover:border-gold/30 focus:border-gold/50 font-[var(--font-lato)] text-sm flex-1"
+   606→                />
+   607→              </div>
+   608→            </div>
+   609→          ))}
+   610→        </div>
+   611→      </SectionCard>
+   612→      <div className="flex justify-end">
+   613→        <SaveButton saving={saving} onClick={handleSave} />
+   614→      </div>
+   615→    </>
+   616→  );
+   617→}
+   618→
+   619→// --- CONTENT PANEL ---
+   620→function ContentPanel({
+   621→  settings,
+   622→  saving,
+   623→  onSave,
+   624→}: {
+   625→  settings: AdminSettings;
+   626→  saving: boolean;
+   627→  onSave: (p: Partial<AdminSettings>) => Promise<void>;
+   628→}) {
+   629→  const [form, setForm] = useState(settings.content || {});
+   630→
+   631→  useEffect(() => {
+   632→    setForm(settings.content || {});
+   633→  }, [settings.content]);
+   634→
+   635→  const handleSave = () => onSave({ content: form });
+   636→
+   637→  const sections = [
+   638→    {
+   639→      title: "Section Hero",
+   640→      fields: [
+   641→        { key: "heroWelcome", label: "Texte de bienvenue" },
+   642→        { key: "heroTitle1", label: "Titre partie 1" },
+   643→        { key: "heroTitle2", label: "Titre partie 2" },
+   644→        { key: "heroSubtitle", label: "Sous-titre" },
+   645→      ],
+   646→    },
+   647→    {
+   648→      title: "Section À Propos",
+   649→      fields: [
+   650→        { key: "aboutLabel", label: "Label" },
+   651→        { key: "aboutTitle1", label: "Titre partie 1" },
+   652→        { key: "aboutTitle2", label: "Titre partie 2" },
+   653→        { key: "aboutP1", label: "Paragraphe 1" },
+   654→        { key: "aboutP2", label: "Paragraphe 2" },
+   655→      ],
+   656→    },
+   657→    {
+   658→      title: "Section Chambres",
+   659→      fields: [
+   660→        { key: "roomsLabel", label: "Label" },
+   661→        { key: "roomsTitle1", label: "Titre partie 1" },
+   662→        { key: "roomsTitle2", label: "Titre partie 2" },
+   663→        { key: "roomsSubtitle", label: "Sous-titre" },
+   664→      ],
+   665→    },
+   666→    {
+   667→      title: "Footer",
+   668→      fields: [
+   669→        { key: "footerCtaTitle", label: "Titre CTA" },
+   670→        { key: "footerCtaText", label: "Texte CTA" },
+   671→        { key: "footerCtaButton", label: "Bouton CTA" },
+   672→        { key: "footerDescription", label: "Description" },
+   673→      ],
+   674→    },
+   675→  ];
+   676→
+   677→  return (
+   678→    <>
+   679→      {sections.map((section) => (
+   680→        <SectionCard key={section.title} title={section.title}>
+   681→          <div className="space-y-4">
+   682→            {section.fields.map((field) => (
+   683→              <FormField
+   684→                key={field.key}
+   685→                label={field.label}
+   686→                value={(form[field.key as keyof typeof form] as string) || ""}
+   687→                onChange={(v) => setForm({ ...form, [field.key]: v })}
+   688→              />
+   689→            ))}
+   690→          </div>
+   691→        </SectionCard>
+   692→      ))}
+   693→      <div className="flex justify-end">
+   694→        <SaveButton saving={saving} onClick={handleSave} />
+   695→      </div>
+   696→    </>
+   697→  );
+   698→}
+   699→
+   700→// --- PASSWORD PANEL ---
+   701→function PasswordPanel() {
+   702→  const [currentPassword, setCurrentPassword] = useState("");
+   703→  const [newPassword, setNewPassword] = useState("");
+   704→  const [confirmPassword, setConfirmPassword] = useState("");
+   705→  const [message, setMessage] = useState("");
+   706→  const [error, setError] = useState("");
+   707→  const [loading, setLoading] = useState(false);
+   708→
+   709→  const handleChangePassword = async () => {
+   710→    setError("");
+   711→    setMessage("");
+   712→
+   713→    if (newPassword !== confirmPassword) {
+   714→      setError("Les mots de passe ne correspondent pas");
+   715→      return;
+   716→    }
+   717→    if (newPassword.length < 6) {
+   718→      setError("Le nouveau mot de passe doit contenir au moins 6 caractères");
+   719→      return;
+   720→    }
+   721→
+   722→    setLoading(true);
+   723→    try {
+   724→      const res = await fetch("/api/admin/password", {
+   725→        method: "POST",
+   726→        headers: { "Content-Type": "application/json" },
+   727→        body: JSON.stringify({ currentPassword, newPassword }),
+   728→      });
+   729→      const data = await res.json();
+   730→
+   731→      if (res.ok) {
+   732→        setMessage("Mot de passe changé avec succès !");
+   733→        setCurrentPassword("");
+   734→        setNewPassword("");
+   735→        setConfirmPassword("");
+   736→      } else {
+   737→        setError(data.error || "Erreur");
+   738→      }
+   739→    } catch {
+   740→      setError("Erreur serveur");
+   741→    } finally {
+   742→      setLoading(false);
+   743→    }
+   744→  };
+   745→
+   746→  return (
+   747→    <SectionCard title="Changer le mot de passe">
+   748→      <div className="space-y-4 max-w-md">
+   749→        <FormField
+   750→          label="Mot de passe actuel"
+   751→          value={currentPassword}
+   752→          onChange={setCurrentPassword}
+   753→          type="password"
+   754→          placeholder="••••••••"
+   755→        />
+   756→        <FormField
+   757→          label="Nouveau mot de passe"
+   758→          value={newPassword}
+   759→          onChange={setNewPassword}
+   760→          type="password"
+   761→          placeholder="Min. 6 caractères"
+   762→        />
+   763→        <FormField
+   764→          label="Confirmer le nouveau mot de passe"
+   765→          value={confirmPassword}
+   766→          onChange={setConfirmPassword}
+   767→          type="password"
+   768→          placeholder="••••••••"
+   769→        />
+   770→
+   771→        {error && (
+   772→          <p className="text-red-400 text-sm font-[var(--font-lato)]">{error}</p>
+   773→        )}
+   774→        {message && (
+   775→          <p className="text-green-400 text-sm font-[var(--font-lato)]">{message}</p>
+   776→        )}
+   777→
+   778→        <SaveButton
+   779→          saving={loading}
+   780→          onClick={handleChangePassword}
+   781→        />
+   782→      </div>
+   783→    </SectionCard>
+   784→  );
+   785→}
+   786→

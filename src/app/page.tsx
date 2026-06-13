@@ -10,22 +10,25 @@ import GallerySection from "@/components/hotel/GallerySection";
 import TestimonialsSection from "@/components/hotel/TestimonialsSection";
 import ContactSection from "@/components/hotel/ContactSection";
 import Footer from "@/components/hotel/Footer";
+import SiteSettingsProvider from "@/components/hotel/SettingsProvider";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col">
-      <Navbar />
-      <HeroSection />
-      <AboutSection />
-      <RoomsSection />
-      <AmenitiesSection />
-      <DiningSection />
-      <SpaSection />
-      <EventsSection />
-      <GallerySection />
-      <TestimonialsSection />
-      <ContactSection />
-      <Footer />
-    </main>
+    <SiteSettingsProvider>
+      <main className="min-h-screen flex flex-col">
+        <Navbar />
+        <HeroSection />
+        <AboutSection />
+        <RoomsSection />
+        <AmenitiesSection />
+        <DiningSection />
+        <SpaSection />
+        <EventsSection />
+        <GallerySection />
+        <TestimonialsSection />
+        <ContactSection />
+        <Footer />
+      </main>
+    </SiteSettingsProvider>
   );
 }

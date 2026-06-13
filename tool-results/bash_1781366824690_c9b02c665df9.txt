@@ -1,0 +1,723 @@
+- generic
+  - main
+    - navigation
+      - link "M MH HOTEL LUXURY REDEFINED" [ref=e2]
+        - StaticText "M"
+        - StaticText "MH HOTEL"
+        - StaticText "LUXURY REDEFINED"
+      - link "HOME" [ref=e3]
+        - StaticText "HOME"
+      - link "ROOMS & SUITES" [ref=e4]
+        - StaticText "ROOMS & SUITES"
+      - link "AMENITIES" [ref=e5]
+        - StaticText "AMENITIES"
+      - link "DINING" [ref=e6]
+        - StaticText "DINING"
+      - link "SPA" [ref=e7]
+        - StaticText "SPA"
+      - link "EVENTS" [ref=e8]
+        - StaticText "EVENTS"
+      - link "GALLERY" [ref=e9]
+        - StaticText "GALLERY"
+      - link "CONTACT" [ref=e10]
+        - StaticText "CONTACT"
+      - link "+1 (234) 567-890" [ref=e11]
+        - StaticText "+1 (234) 567-890"
+      - link "BOOK NOW" [ref=e12]
+    - generic
+      - generic
+        - image "MH Hotel exterior"
+      - generic
+        - paragraph
+          - StaticText "WELCOME TO"
+        - heading "MH HOTEL" [level=1, ref=e98]
+          - StaticText "MH HOTEL"
+        - paragraph
+          - StaticText "Where timeless elegance meets modern luxury. Experience a world of refined comfort, impeccable service, and unforgettable moments."
+        - button "VIRTUAL TOUR" [ref=e99]
+          - StaticText "VIRTUAL TOUR"
+        - generic
+          - LabelText
+            - StaticText "CHECK IN"
+          - button "Select date" [expanded=false, ref=e157]
+        - generic
+          - LabelText
+            - StaticText "CHECK OUT"
+          - button "Select date" [expanded=false, ref=e158]
+        - LabelText
+          - StaticText "GUESTS"
+        - combobox [expanded=false, ref=e122]: 2 Guests
+          - generic [ref=e159] clickable [onclick]
+            - StaticText "2 Guests"
+        - LabelText
+          - StaticText "ROOM TYPE"
+        - combobox [expanded=false, ref=e123]: Room type
+          - StaticText "Room type"
+        - button "CHECK AVAILABILITY" [ref=e124]
+      - link "DISCOVER" [ref=e100]
+        - StaticText "DISCOVER"
+    - generic
+      - image "MH Hotel grand lobby"
+      - image "MH Hotel elegant room"
+    - paragraph
+      - StaticText "OUR STORY"
+    - heading "A Legacy of Luxury" [level=2, ref=e13]
+      - StaticText "A Legacy of Luxury"
+    - paragraph
+      - StaticText "Since its inception, MH Hotel has been a beacon of sophistication and warmth in the heart of the city. Our commitment to excellence transcends ordinary hospitality, offering each guest a curated experience that blends timeless elegance with contemporary comfort."
+    - paragraph
+      - StaticText "Every detail at MH Hotel has been thoughtfully crafted, from the hand-selected furnishings in our suites to the locally sourced ingredients in our restaurants. We believe that true luxury lies in the art of anticipation, where every need is met before it is expressed, and every moment becomes a cherished memory."
+    - paragraph
+      - StaticText "5-Star"
+    - paragraph
+      - StaticText "LUXURY RATING"
+    - paragraph
+      - StaticText "15+"
+    - paragraph
+      - StaticText "YEARS OF EXCELLENCE"
+    - paragraph
+      - StaticText "50,000+"
+    - paragraph
+      - StaticText "HAPPY GUESTS"
+    - paragraph
+      - StaticText "120+"
+    - paragraph
+      - StaticText "COUNTRIES SERVED"
+    - paragraph
+      - StaticText "HÉBERGEMENT"
+    - heading "Chambres &Suites" [level=2, ref=e14]
+      - StaticText "Chambres &Suites"
+    - paragraph
+      - StaticText "Chaque chambre et suite est un sanctuaire de confort, conçu avec une attention minutieuse aux détails et orné des plus beaux matériaux."
+    - generic
+      - generic
+        - image "Chambre Classique"
+        - generic
+          - heading "Chambre Classique" [level=3, ref=e160]
+          - paragraph
+            - StaticText "32 m² • Queen Bed"
+          - generic
+            - StaticText "$166/nuit"
+      - StaticText "1–3 Adultes"
+      - StaticText "50"
+      - StaticText " chambres"
+      - StaticText "Dès "
+      - StaticText "$"
+      - StaticText "141"
+      - StaticText "/pers."
+      - paragraph
+        - StaticText "Un havre de sérénité au design contemporain, literie moelleuse et espace de travail soigneusement aménagé. Parfait pour les voyageurs d'affaires et de loisirs en quête de confort et de praticité."
+      - StaticText "WiFi Gratuit"
+      - StaticText "Smart TV"
+      - StaticText "Machine à Café"
+      - StaticText "Douche Pluie"
+      - StaticText "Vue Ville"
+      - StaticText "Mini Bar"
+      - paragraph
+        - StaticText "+ 9% Taxes et frais"
+      - button "CHOISIR CETTE CHAMBRE" [ref=e101]
+    - generic
+      - StaticText "Recommandée"
+      - generic
+        - image "Chambre Supérieure"
+        - generic
+          - heading "Chambre Supérieure" [level=3, ref=e161]
+          - paragraph
+            - StaticText "36 m² • Twin / Double"
+          - generic
+            - StaticText "$198/nuit"
+      - StaticText "1–2 Adultes"
+      - StaticText "10"
+      - StaticText " chambres"
+      - StaticText "Dès "
+      - StaticText "$"
+      - StaticText "167"
+      - StaticText "/pers."
+      - paragraph
+        - StaticText "Idéale pour les amis ou collègues voyageant ensemble, notre Chambre Supérieure dispose de deux lits confortables avec accents bleu marine, fauteuils moelleux et un tapis géométrique moderne aux tons neutres apaisants."
+      - StaticText "WiFi Gratuit"
+      - StaticText "Smart TV"
+      - StaticText "Machine à Café"
+      - StaticText "Douche Pluie"
+      - StaticText "Vue Ville"
+      - StaticText "Mini Bar"
+      - paragraph
+        - StaticText "+ 9% Taxes et frais"
+      - button "CHOISIR CETTE CHAMBRE" [ref=e102]
+    - generic
+      - generic
+        - image "Chambre Premium"
+        - generic
+          - heading "Chambre Premium" [level=3, ref=e162]
+          - paragraph
+            - StaticText "48 m² • King Bed"
+          - generic
+            - StaticText "$224/nuit"
+      - StaticText "1–2 Adultes"
+      - StaticText "10"
+      - StaticText " chambres"
+      - StaticText "Dès "
+      - StaticText "$"
+      - StaticText "193"
+      - StaticText "/pers."
+      - paragraph
+        - StaticText "Élevez votre séjour dans notre Chambre Premium, offrant une vue panoramique sur la ville à travers des baies vitrées, un fauteuil rose vibrant et une salle de bain en marbre spacieuse. Un choix idéal pour les amateurs de raffinement."
+      - StaticText "WiFi Gratuit"
+      - StaticText "Smart TV 65\""
+      - StaticText "Machine Espresso"
+      - StaticText "Baignoire & Douche"
+      - StaticText "Vue Panoramique"
+      - StaticText "Accès Lounge"
+      - paragraph
+        - StaticText "+ 9% Taxes et frais"
+      - button "CHOISIR CETTE CHAMBRE" [ref=e103]
+    - generic
+      - generic
+        - image "Suite Junior"
+        - generic
+          - heading "Suite Junior" [level=3, ref=e163]
+          - paragraph
+            - StaticText "55 m² • King Bed + Salon"
+          - generic
+            - StaticText "$251/nuit"
+      - StaticText "1–2 Adultes"
+      - StaticText "10"
+      - StaticText " chambres"
+      - StaticText "Dès "
+      - StaticText "$"
+      - StaticText "220"
+      - StaticText "/pers."
+      - paragraph
+        - StaticText "Notre Suite Junior redéfinit le luxe avec un salon séparé, un espace repas et une chambre. Dotée de mobilier sur mesure, de doubles vasques et d'un service de butler exclusif pour une expérience inoubliable."
+      - StaticText "WiFi Gratuit"
+      - StaticText "Smart TV 75\""
+      - StaticText "Cuisine Équipée"
+      - StaticText "Jacuzzi"
+      - StaticText "Butler Service"
+      - StaticText "Transfert Aéroport"
+      - paragraph
+        - StaticText "+ 9% Taxes et frais"
+      - button "CHOISIR CETTE CHAMBRE" [ref=e104]
+    - generic
+      - generic
+        - image "Suite Romantique"
+        - generic
+          - heading "Suite Romantique" [level=3, ref=e164]
+          - paragraph
+            - StaticText "55 m² • King Bed"
+          - generic
+            - StaticText "$320/nuit"
+      - StaticText "2 Adultes"
+      - StaticText "5"
+      - StaticText " chambres"
+      - paragraph
+        - StaticText "Célébrez l'amour dans notre Suite Romantique, parée de pétales de roses, de cygnes en serviette et d'une tête de lit terracotta luxueuse sur un papier peint botanique bleu. Parfaite pour les lunes de miel et anniversaires."
+      - StaticText "WiFi Gratuit"
+      - StaticText "Smart TV 65\""
+      - StaticText "Champagne & Fleurs"
+      - StaticText "Jacuzzi"
+      - StaticText "Room Service"
+      - StaticText "Late Checkout"
+      - paragraph
+        - StaticText "+ 9% Taxes et frais"
+      - button "CHOISIR CETTE CHAMBRE" [ref=e105]
+    - generic
+      - generic
+        - image "Chambre Familiale"
+        - generic
+          - heading "Chambre Familiale" [level=3, ref=e165]
+          - paragraph
+            - StaticText "52 m² • Lits Triple"
+          - generic
+            - StaticText "$280/nuit"
+      - StaticText "3 Adultes"
+      - StaticText "8"
+      - StaticText " chambres"
+      - paragraph
+        - StaticText "Spacieuse et accueillante, notre Chambre Familiale accueille jusqu'à trois convives avec trois lits simples, des fauteuils rouges et un coin salon cosy près de la fenêtre. Conçue pour les familles et les groupes."
+      - StaticText "WiFi Gratuit"
+      - StaticText "Smart TV"
+      - StaticText "Machine à Café"
+      - StaticText "Douche Pluie"
+      - StaticText "Coin Salon"
+      - StaticText "Enfants Bienvenus"
+      - paragraph
+        - StaticText "+ 9% Taxes et frais"
+      - button "CHOISIR CETTE CHAMBRE" [ref=e106]
+    - paragraph
+      - StaticText "WORLD-CLASS SERVICES"
+    - heading "Hotel Amenities" [level=2, ref=e15]
+      - StaticText "Hotel Amenities"
+    - paragraph
+      - StaticText "Every detail is designed to elevate your stay. From wellness to gastronomy, discover a world of exclusive amenities at MH Hotel."
+    - generic [ref=e16] clickable [cursor:pointer]
+      - image "Indoor Pool"
+      - generic
+        - heading "Indoor Pool" [level=3, ref=e125]
+        - paragraph
+          - StaticText "Dive into crystal-clear waters surrounded by lush palm trees and a living green wall. Our heated indoor pool offers a resort-like escape with comfortable lounge chairs and a serene atmosphere."
+    - generic [ref=e17] clickable [cursor:pointer]
+      - image "Luxury Spa"
+      - generic
+        - heading "Luxury Spa" [level=3, ref=e126]
+        - paragraph
+          - StaticText "Rejuvenate body and mind at our world-class spa. Expert therapists deliver bespoke treatments using premium organic products in tranquil, candlelit rooms with aromatic oils and flower petal rituals."
+    - generic [ref=e18] clickable [cursor:pointer]
+      - image "Hammam & Wellness"
+      - generic
+        - heading "Hammam & Wellness" [level=3, ref=e127]
+        - paragraph
+          - StaticText "Experience the ancient art of purification in our exquisite marble hammam. Featuring ornate basins, ambient candlelight, and traditional cleansing rituals in an opulent setting."
+    - generic [ref=e19] clickable [cursor:pointer]
+      - image "Beauty Salon"
+      - generic
+        - heading "Beauty Salon" [level=3, ref=e128]
+        - paragraph
+          - StaticText "Pamper yourself at our full-service beauty salon offering manicures, pedicures, and bespoke beauty treatments in an elegant setting with premium products and expert stylists."
+    - generic [ref=e20] clickable [cursor:pointer]
+      - image "Luxury Bathrooms"
+      - generic
+        - heading "Luxury Bathrooms" [level=3, ref=e129]
+        - paragraph
+          - StaticText "Sleek, contemporary bathrooms with premium fixtures, rainfall showers, illuminated mirrors, and soft ambient lighting. A spa-like experience in the privacy of your own room."
+    - generic [ref=e21] clickable [cursor:pointer]
+      - image "Stone Bath Suites"
+      - generic
+        - heading "Stone Bath Suites" [level=3, ref=e130]
+        - paragraph
+          - StaticText "Indulge in our stone-clad bathroom suites featuring warm earthy tones, glass-enclosed showers, and polished chrome accents. A perfect blend of natural materials and modern design."
+    - generic [ref=e22] clickable [cursor:pointer]
+      - image "Rooftop Dining"
+      - generic
+        - heading "Rooftop Dining" [level=3, ref=e131]
+        - paragraph
+          - StaticText "Savor exquisite cuisine with breathtaking panoramic views. Our rooftop restaurant offers a culinary experience like no other, with fresh ingredients and stunning city vistas."
+    - generic [ref=e23] clickable [cursor:pointer]
+      - image "Meeting Rooms"
+      - generic
+        - heading "Meeting Rooms" [level=3, ref=e132]
+        - paragraph
+          - StaticText "State-of-the-art conference facilities with cutting-edge AV technology, high-speed WiFi, and dedicated event coordinators for seamless corporate gatherings."
+    - heading "24/7 Concierge" [level=3, ref=e24]
+    - paragraph
+      - StaticText "Our dedicated concierge team anticipates your every need."
+    - heading "Valet Parking" [level=3, ref=e25]
+    - paragraph
+      - StaticText "Complimentary valet service for seamless arrivals and departures."
+    - heading "Fitness Center" [level=3, ref=e26]
+    - paragraph
+      - StaticText "Modern equipment and personal trainers, open 24/7."
+    - heading "Premium Security" [level=3, ref=e27]
+    - paragraph
+      - StaticText "Round-the-clock security and smart room locks throughout."
+    - paragraph
+      - StaticText "CULINARY EXCELLENCE"
+    - heading "Fine Dining" [level=2, ref=e28]
+      - StaticText "Fine Dining"
+    - paragraph
+      - StaticText "Embark on a culinary journey through our signature restaurants, each offering a distinct atmosphere and exceptional cuisine."
+    - generic [ref=e29] clickable [cursor:pointer]
+      - image "The Goldfinch fine dining restaurant"
+      - generic
+        - paragraph
+          - StaticText "FINE DINING"
+        - heading "The Goldfinch" [level=3, ref=e133]
+        - paragraph
+          - StaticText "Modern European cuisine reimagined by our Michelin-starred Chef. An intimate setting with rose petal table settings, gold-rimmed porcelain, and a curated wine cellar featuring over 500 labels."
+        - StaticText "Dinner: 6:30 PM - 11:00 PM"
+        - button "Reserve" [ref=e134]
+    - generic [ref=e30] clickable [cursor:pointer]
+      - image "Sky Lounge rooftop terrace"
+      - generic
+        - paragraph
+          - StaticText "ROOFTOP BAR"
+        - heading "Sky Lounge" [level=3, ref=e135]
+        - paragraph
+          - StaticText "Handcrafted cocktails and Asian-fusion small plates served above the city skyline. Live jazz performances every weekend under the stars in our lush garden terrace setting."
+        - StaticText "Daily: 5:00 PM - 1:00 AM"
+        - button "Reserve" [ref=e136]
+    - generic [ref=e31] clickable [cursor:pointer]
+      - image "Azure rooftop dining"
+      - generic
+        - paragraph
+          - StaticText "ROOFTOP DINING"
+        - heading "Azure Terrace" [level=3, ref=e137]
+        - paragraph
+          - StaticText "Relaxed rooftop dining with Mediterranean-inspired dishes, fresh seafood, and tropical cocktails. The perfect daytime escape with panoramic city views."
+        - StaticText "Lunch: 11:00 AM - 5:00 PM"
+        - button "Reserve" [ref=e138]
+    - generic [ref=e32] clickable [cursor:pointer]
+      - image "Patisserie desserts"
+      - generic
+        - paragraph
+          - StaticText "PATISSERIE"
+        - heading "Le Jardin" [level=3, ref=e139]
+        - paragraph
+          - StaticText "Indulge in our artisan patisserie featuring handcrafted desserts, mirror-glazed creations, and signature pastries. Paired with premium teas and coffees in an elegant setting."
+        - StaticText "Daily: 10:00 AM - 10:00 PM"
+        - button "Reserve" [ref=e140]
+    - generic
+      - image "MH Hotel luxury spa"
+      - generic
+        - paragraph
+          - StaticText "AWARD WINNING"
+        - paragraph
+          - StaticText "Best City Spa 2025"
+    - paragraph
+      - StaticText "WELLNESS & REJUVENATION"
+    - heading "MH Spa" [level=2, ref=e33]
+      - StaticText "MH Spa"
+    - paragraph
+      - StaticText "Step into a world of tranquility and renewal. Our award-winning spa offers a sanctuary where ancient healing traditions meet cutting-edge wellness technology, all delivered by expert therapists dedicated to your complete well-being."
+    - heading "Royal Signature Massage" [level=4, ref=e34]
+    - StaticText "$220"
+    - paragraph
+      - StaticText "A bespoke full-body massage combining Swedish, hot stone, and aromatherapy techniques using 24-karat gold-infused oils."
+    - StaticText "90 min"
+    - heading "Diamond Facial" [level=4, ref=e35]
+    - StaticText "$280"
+    - paragraph
+      - StaticText "Reveal radiant skin with our premium facial featuring diamond dust exfoliation, hyaluronic acid serums, and LED light therapy."
+    - StaticText "75 min"
+    - heading "Couples Retreat" [level=4, ref=e36]
+    - StaticText "$450"
+    - paragraph
+      - StaticText "Share a blissful experience with synchronized massages, private Jacuzzi access, champagne, and chocolate-dipped strawberries."
+    - StaticText "120 min"
+    - heading "Herbal Steam Ritual" [level=4, ref=e37]
+    - StaticText "$150"
+    - paragraph
+      - StaticText "Ancient healing meets modern wellness in our aromatic steam ceremony followed by a cooling herbal body wrap and scalp treatment."
+    - StaticText "60 min"
+    - button "BOOK A TREATMENT" [ref=e38]
+    - paragraph
+      - StaticText "UNFORGETTABLE OCCASIONS"
+    - heading "Events & Meetings" [level=2, ref=e39]
+      - StaticText "Events & Meetings"
+    - paragraph
+      - StaticText "From grand celebrations to corporate summits, MH Hotel provides stunning venues and impeccable service to make every event extraordinary. Our dedicated events team ensures every detail is flawlessly executed."
+    - heading "Conferences & Meetings" [level=4, ref=e40]
+    - paragraph
+      - StaticText "State-of-the-art boardrooms and conference halls with cutting-edge AV technology, high-speed WiFi, and dedicated event coordinators for seamless corporate gatherings."
+    - StaticText "Up to 500 guests"
+    - heading "Weddings & Celebrations" [level=4, ref=e41]
+    - paragraph
+      - StaticText "Transform your dream wedding into reality in our grand ballroom with crystal chandeliers, floral arrangements, and a dedicated wedding planner to curate every magical detail."
+    - StaticText "Up to 350 guests"
+    - heading "Private Events" [level=4, ref=e42]
+    - paragraph
+      - StaticText "Host intimate gatherings, galas, or milestone celebrations in our versatile event spaces, each customizable to reflect your unique vision and style."
+    - StaticText "Up to 200 guests"
+    - heading "Cultural & Social Events" [level=4, ref=e43]
+    - paragraph
+      - StaticText "From art exhibitions to charity galas, our sophisticated venues provide the perfect backdrop for cultural and social occasions that leave lasting impressions."
+    - StaticText "Up to 400 guests"
+    - button "PLAN YOUR EVENT" [ref=e44]
+    - generic
+      - image "MH Hotel event space"
+    - paragraph
+      - StaticText "VOYAGE VISUEL"
+    - heading "Galerie Photos" [level=2, ref=e45]
+      - StaticText "Galerie Photos"
+    - button "TOUTES" [ref=e46]
+    - button "HÔTEL" [ref=e47]
+    - button "CHAMBRES" [ref=e48]
+    - button "RESTAURATION" [ref=e49]
+    - button "ÉQUIPEMENTS" [ref=e50]
+    - button "ÉVÉNEMENTS" [ref=e51]
+    - generic [ref=e52] clickable [cursor:pointer, onclick]
+      - image "Extérieur de l'Hôtel"
+      - paragraph
+        - StaticText "Extérieur de l'Hôtel"
+      - paragraph
+        - StaticText "Hôtel"
+    - generic [ref=e53] clickable [cursor:pointer, onclick]
+      - image "Grand Lobby & Réception"
+      - paragraph
+        - StaticText "Grand Lobby & Réception"
+      - paragraph
+        - StaticText "Hôtel"
+    - generic [ref=e54] clickable [cursor:pointer, onclick]
+      - image "Salle de Conférence"
+      - paragraph
+        - StaticText "Salle de Conférence"
+      - paragraph
+        - StaticText "Hôtel"
+    - generic [ref=e55] clickable [cursor:pointer, onclick]
+      - image "Salle de Banquet"
+      - paragraph
+        - StaticText "Salle de Banquet"
+      - paragraph
+        - StaticText "Hôtel"
+    - generic [ref=e56] clickable [cursor:pointer, onclick]
+      - image "Chambre Classique - Service en Chambre"
+      - paragraph
+        - StaticText "Chambre Classique - Service en Chambre"
+      - paragraph
+        - StaticText "Chambres"
+    - generic [ref=e57] clickable [cursor:pointer, onclick]
+      - image "Chambre Supérieure Twin"
+      - paragraph
+        - StaticText "Chambre Supérieure Twin"
+      - paragraph
+        - StaticText "Chambres"
+    - generic [ref=e58] clickable [cursor:pointer, onclick]
+      - image "Chambre Premium"
+      - paragraph
+        - StaticText "Chambre Premium"
+      - paragraph
+        - StaticText "Chambres"
+    - generic [ref=e59] clickable [cursor:pointer, onclick]
+      - image "Suite Romantique"
+      - paragraph
+        - StaticText "Suite Romantique"
+      - paragraph
+        - StaticText "Chambres"
+    - generic [ref=e60] clickable [cursor:pointer, onclick]
+      - image "Suite Junior"
+      - paragraph
+        - StaticText "Suite Junior"
+      - paragraph
+        - StaticText "Chambres"
+    - generic [ref=e61] clickable [cursor:pointer, onclick]
+      - image "Chambre Familiale"
+      - paragraph
+        - StaticText "Chambre Familiale"
+      - paragraph
+        - StaticText "Chambres"
+    - generic [ref=e62] clickable [cursor:pointer, onclick]
+      - image "Chambre Classique"
+      - paragraph
+        - StaticText "Chambre Classique"
+      - paragraph
+        - StaticText "Chambres"
+    - generic [ref=e63] clickable [cursor:pointer, onclick]
+      - image "Vue Ville depuis la Chambre"
+      - paragraph
+        - StaticText "Vue Ville depuis la Chambre"
+      - paragraph
+        - StaticText "Chambres"
+    - generic [ref=e64] clickable [cursor:pointer, onclick]
+      - image "Restaurant Gastronomique"
+      - paragraph
+        - StaticText "Restaurant Gastronomique"
+      - paragraph
+        - StaticText "Restauration"
+    - generic [ref=e65] clickable [cursor:pointer, onclick]
+      - image "Plateau de Fruits de Mer"
+      - paragraph
+        - StaticText "Plateau de Fruits de Mer"
+      - paragraph
+        - StaticText "Restauration"
+    - generic [ref=e66] clickable [cursor:pointer, onclick]
+      - image "Pâtisseries Artisanales"
+      - paragraph
+        - StaticText "Pâtisseries Artisanales"
+      - paragraph
+        - StaticText "Restauration"
+    - generic [ref=e67] clickable [cursor:pointer, onclick]
+      - image "Dîner sur le Toit"
+      - paragraph
+        - StaticText "Dîner sur le Toit"
+      - paragraph
+        - StaticText "Restauration"
+    - generic [ref=e68] clickable [cursor:pointer, onclick]
+      - image "Terrasse Jardin"
+      - paragraph
+        - StaticText "Terrasse Jardin"
+      - paragraph
+        - StaticText "Restauration"
+    - generic [ref=e69] clickable [cursor:pointer, onclick]
+      - image "Piscine Intérieure"
+      - paragraph
+        - StaticText "Piscine Intérieure"
+      - paragraph
+        - StaticText "Équipements"
+    - generic [ref=e70] clickable [cursor:pointer, onclick]
+      - image "Espace Détente Piscine"
+      - paragraph
+        - StaticText "Espace Détente Piscine"
+      - paragraph
+        - StaticText "Équipements"
+    - generic [ref=e71] clickable [cursor:pointer, onclick]
+      - image "Soins Spa"
+      - paragraph
+        - StaticText "Soins Spa"
+      - paragraph
+        - StaticText "Équipements"
+    - generic [ref=e72] clickable [cursor:pointer, onclick]
+      - image "Hammam & Bien-être"
+      - paragraph
+        - StaticText "Hammam & Bien-être"
+      - paragraph
+        - StaticText "Équipements"
+    - generic [ref=e73] clickable [cursor:pointer, onclick]
+      - image "Salon de Beauté"
+      - paragraph
+        - StaticText "Salon de Beauté"
+      - paragraph
+        - StaticText "Équipements"
+    - generic [ref=e74] clickable [cursor:pointer, onclick]
+      - image "Salle de Bain Luxe"
+      - paragraph
+        - StaticText "Salle de Bain Luxe"
+      - paragraph
+        - StaticText "Équipements"
+    - generic [ref=e75] clickable [cursor:pointer, onclick]
+      - image "Suite de Bain en Pierre"
+      - paragraph
+        - StaticText "Suite de Bain en Pierre"
+      - paragraph
+        - StaticText "Équipements"
+    - generic [ref=e76] clickable [cursor:pointer, onclick]
+      - image "Lounge Extérieur"
+      - paragraph
+        - StaticText "Lounge Extérieur"
+      - paragraph
+        - StaticText "Équipements"
+    - generic [ref=e77] clickable [cursor:pointer, onclick]
+      - image "Espace Événementiel"
+      - paragraph
+        - StaticText "Espace Événementiel"
+      - paragraph
+        - StaticText "Événements"
+    - generic [ref=e78] clickable [cursor:pointer, onclick]
+      - image "Salle de Réunion"
+      - paragraph
+        - StaticText "Salle de Réunion"
+      - paragraph
+        - StaticText "Événements"
+    - paragraph
+      - StaticText "GUEST EXPERIENCES"
+    - heading "What Our Guests Say" [level=2, ref=e79]
+      - StaticText "What Our Guests Say"
+    - generic
+      - heading "Simply Magnificent" [level=3, ref=e107]
+      - paragraph
+        - StaticText "“I have stayed at luxury hotels around the world, and MH Hotel stands among the very best. The attention to detail is remarkable, from the hand-pressed linens to the personalized welcome amenities. The Goldfinch restaurant alone is worth the visit.”"
+      - StaticText "AR"
+      - paragraph
+        - StaticText "Ahmed Al-Rashid"
+      - paragraph
+        - StaticText "Dubai, UAE"
+      - button [ref=e108]
+      - button [ref=e109]
+      - button [ref=e110]
+      - button [ref=e111]
+      - button [ref=e112]
+      - button [ref=e113]
+      - button [ref=e114]
+      - button [ref=e115]
+    - paragraph
+      - StaticText "GET IN TOUCH"
+    - heading "Contact Us" [level=2, ref=e80]
+      - StaticText "Contact Us"
+    - paragraph
+      - StaticText "We would love to hear from you. Whether you have a question about reservations, services, or anything else, our team is ready to assist."
+    - heading "Address" [level=4, ref=e81]
+    - paragraph
+      - StaticText "123 Luxury Avenue"
+    - paragraph
+      - StaticText "Downtown District"
+    - paragraph
+      - StaticText "New York, NY 10001"
+    - heading "Phone" [level=4, ref=e82]
+    - paragraph
+      - StaticText "+1 (234) 567-890"
+    - paragraph
+      - StaticText "+1 (234) 567-891"
+    - heading "Email" [level=4, ref=e83]
+    - paragraph
+      - StaticText "reservations@mhhotel.com"
+    - paragraph
+      - StaticText "info@mhhotel.com"
+    - heading "Front Desk" [level=4, ref=e84]
+    - paragraph
+      - StaticText "24/7 Available"
+    - paragraph
+      - StaticText "Check-in: 3:00 PM"
+    - paragraph
+      - StaticText "Check-out: 12:00 PM"
+    - paragraph
+      - StaticText "FOLLOW US"
+    - link "Instagram" [ref=e85]
+    - link "Facebook" [ref=e86]
+    - link "Twitter" [ref=e87]
+    - paragraph
+      - StaticText "123 Luxury Avenue, NYC"
+    - form
+      - LabelText
+        - StaticText "First Name"
+      - textbox "Your first name" [ref=e116]
+      - LabelText
+        - StaticText "Last Name"
+      - textbox "Your last name" [ref=e117]
+      - LabelText
+        - StaticText "Email"
+      - textbox "your@email.com" [ref=e118]
+      - LabelText
+        - StaticText "Phone"
+      - textbox "+1 (234) 567-890" [ref=e119]
+      - LabelText
+        - StaticText "Message"
+      - textbox "How can we help you?" [ref=e120]
+      - button "SEND MESSAGE" [ref=e121]
+    - sectionfooter
+      - heading "Ready to Experience Luxury?" [level=3, ref=e88]
+      - paragraph
+        - StaticText "Book your stay today and discover why MH Hotel is the destination of choice for discerning travelers worldwide."
+      - button "RESERVE YOUR ROOM" [ref=e89]
+      - StaticText "M"
+      - StaticText "MH HOTEL"
+      - paragraph
+        - StaticText "LUXURY REDEFINED"
+      - paragraph
+        - StaticText "Where timeless elegance meets modern luxury. Since 2009, MH Hotel has been the pinnacle of sophisticated hospitality, offering unparalleled experiences in the heart of the city."
+      - link "Instagram" [ref=e90]
+      - link "Facebook" [ref=e91]
+      - heading "The Hotel" [level=4, ref=e92]
+      - list
+        - listitem [level=1]
+          - link "About Us" [ref=e141]
+        - listitem [level=1]
+          - link "Rooms & Suites" [ref=e142]
+        - listitem [level=1]
+          - link "Amenities" [ref=e143]
+        - listitem [level=1]
+          - link "Gallery" [ref=e144]
+        - listitem [level=1]
+          - link "Virtual Tour" [ref=e145]
+      - heading "Services" [level=4, ref=e93]
+      - list
+        - listitem [level=1]
+          - link "Fine Dining" [ref=e146]
+        - listitem [level=1]
+          - link "Spa & Wellness" [ref=e147]
+        - listitem [level=1]
+          - link "Events & Meetings" [ref=e148]
+        - listitem [level=1]
+          - link "Airport Transfer" [ref=e149]
+        - listitem [level=1]
+          - link "Concierge" [ref=e150]
+      - heading "Information" [level=4, ref=e94]
+      - list
+        - listitem [level=1]
+          - link "Careers" [ref=e151]
+        - listitem [level=1]
+          - link "Press & Media" [ref=e152]
+        - listitem [level=1]
+          - link "Privacy Policy" [ref=e153]
+        - listitem [level=1]
+          - link "Terms & Conditions" [ref=e154]
+        - listitem [level=1]
+          - link "Sitemap" [ref=e155]
+      - paragraph
+        - StaticText "© 2026MH HOTEL. All rights reserved."
+      - link "+1 (234) 567-890" [ref=e95]
+      - link "info@mhhotel.com" [ref=e96]
+      - button "Scroll to top" [ref=e97]
+  - region "Notifications (F8)" [ref=e1]
+    - list
+  - button "Open Next.js Dev Tools" [expanded=false, ref=e156]
+    - image
+  - alert
