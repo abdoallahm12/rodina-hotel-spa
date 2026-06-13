@@ -1,9 +1,67 @@
-import fs from "fs";
-import path from "path";
 import crypto from "crypto";
+import db from "./db";
 
-const SETTINGS_FILE = path.join(process.cwd(), "data", "admin-settings.json");
-const SESSIONS_FILE = path.join(process.cwd(), "data", "admin-sessions.json");
+// ============ Types ============
+export interface RoomSettings {
+  id: string;
+  name: string;
+  price: number;
+  priceSingle?: number;
+  priceTriple?: number;
+  totalRooms: number;
+}
+
+export interface AdminSettings {
+  hotel: {
+    name: string;
+    tagline: string;
+    description: string;
+    logoLetter: string;
+  };
+  currency: {
+    code: string;
+    symbol: string;
+    taxRate: number;
+  };
+  rooms: RoomSettings[];
+  social: {
+    facebook: string;
+    instagram: string;
+    whatsapp: string;
+    tiktok: string;
+    youtube: string;
+  };
+  contact: {
+    phone: string;
+    email: string;
+    address: string;
+  };
+  images: {
+    heroBg: string;
+    aboutMain: string;
+    aboutInset: string;
+    spaMain: string;
+  };
+  content: {
+    heroWelcome: string;
+    heroTitle1: string;
+    heroTitle2: string;
+    heroSubtitle: string;
+    aboutLabel: string;
+    aboutTitle1: string;
+    aboutTitle2: string;
+    aboutP1: string;
+    aboutP2: string;
+    roomsLabel: string;
+    roomsTitle1: string;
+    roomsTitle2: string;
+    roomsSubtitle: string;
+    footerCtaTitle: string;
+    footerCtaText: string;
+    footerCtaButton: string;
+    footerDescription: string;
+  };
+}
 
 const DEFAULT_SETTINGS: AdminSettings = {
   hotel: {
@@ -106,124 +164,78 @@ const DEFAULT_SETTINGS: AdminSettings = {
   },
 };
 
-// Types
-export interface RoomSettings {
-  id: string;
-  name: string;
-  price: number;
-  priceSingle?: number;
-  priceTriple?: number;
-  totalRooms: number;
-}
+// ============ Settings Management (PostgreSQL via Prisma) ============
 
-export interface AdminSettings {
-  hotel: {
-    name: string;
-    tagline: string;
-    description: string;
-    logoLetter: string;
-  };
-  currency: {
-    code: string;
-    symbol: string;
-    taxRate: number;
-  };
-  rooms: RoomSettings[];
-  social: {
-    facebook: string;
-    instagram: string;
-    whatsapp: string;
-    tiktok: string;
-    youtube: string;
-  };
-  contact: {
-    phone: string;
-    email: string;
-    address: string;
-  };
-  images: {
-    heroBg: string;
-    aboutMain: string;
-    aboutInset: string;
-    spaMain: string;
-  };
-  content: {
-    heroWelcome: string;
-    heroTitle1: string;
-    heroTitle2: string;
-    heroSubtitle: string;
-    aboutLabel: string;
-    aboutTitle1: string;
-    aboutTitle2: string;
-    aboutP1: string;
-    aboutP2: string;
-    roomsLabel: string;
-    roomsTitle1: string;
-    roomsTitle2: string;
-    roomsSubtitle: string;
-    footerCtaTitle: string;
-    footerCtaText: string;
-    footerCtaButton: string;
-    footerDescription: string;
-  };
-}
-
-// Password management
-const PASSWORD_FILE = path.join(process.cwd(), "data", "admin-password.json");
-
-function hashPassword(password: string): string {
-  return crypto.createHash("sha256").update(password).digest("hex");
-}
-
-function ensureDataDir() {
-  const dir = path.join(process.cwd(), "data");
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-}
-
-export function getPasswordHash(): string {
-  ensureDataDir();
-  if (!fs.existsSync(PASSWORD_FILE)) {
-    // Default password: "admin2024"
-    const defaultHash = hashPassword("admin2024");
-    fs.writeFileSync(PASSWORD_FILE, JSON.stringify({ hash: defaultHash }), "utf-8");
-    return defaultHash;
-  }
-  const data = JSON.parse(fs.readFileSync(PASSWORD_FILE, "utf-8"));
-  return data.hash;
-}
-
-export function verifyPassword(password: string): boolean {
-  return hashPassword(password) === getPasswordHash();
-}
-
-export function changePassword(currentPassword: string, newPassword: string): boolean {
-  if (!verifyPassword(currentPassword)) return false;
-  ensureDataDir();
-  const newHash = hashPassword(newPassword);
-  fs.writeFileSync(PASSWORD_FILE, JSON.stringify({ hash: newHash }), "utf-8");
-  return true;
-}
-
-// Settings management
-export function getSettings(): AdminSettings {
-  ensureDataDir();
-  if (!fs.existsSync(SETTINGS_FILE)) {
-    fs.writeFileSync(SETTINGS_FILE, JSON.stringify(DEFAULT_SETTINGS, null, 2), "utf-8");
-    return DEFAULT_SETTINGS;
-  }
+export async function getSettings(): Promise<AdminSettings> {
   try {
-    const data = JSON.parse(fs.readFileSync(SETTINGS_FILE, "utf-8"));
-    return { ...DEFAULT_SETTINGS, ...data };
-  } catch {
+    const settingsRows = await db.adminSetting.findMany();
+
+    if (settingsRows.length === 0) {
+      // Initialize default settings in database
+      await initializeDefaultSettings();
+      return DEFAULT_SETTINGS;
+    }
+
+    const settingsMap: Record<string, string> = {};
+    for (const row of settingsRows) {
+      settingsMap[row.key] = row.value;
+    }
+
+    // Parse each section from stored JSON
+    const settings = { ...DEFAULT_SETTINGS };
+
+    if (settingsMap.hotel) {
+      try { settings.hotel = { ...DEFAULT_SETTINGS.hotel, ...JSON.parse(settingsMap.hotel) }; } catch { /* keep default */ }
+    }
+    if (settingsMap.currency) {
+      try { settings.currency = { ...DEFAULT_SETTINGS.currency, ...JSON.parse(settingsMap.currency) }; } catch { /* keep default */ }
+    }
+    if (settingsMap.rooms) {
+      try { settings.rooms = JSON.parse(settingsMap.rooms); } catch { /* keep default */ }
+    }
+    if (settingsMap.social) {
+      try { settings.social = { ...DEFAULT_SETTINGS.social, ...JSON.parse(settingsMap.social) }; } catch { /* keep default */ }
+    }
+    if (settingsMap.contact) {
+      try { settings.contact = { ...DEFAULT_SETTINGS.contact, ...JSON.parse(settingsMap.contact) }; } catch { /* keep default */ }
+    }
+    if (settingsMap.images) {
+      try { settings.images = { ...DEFAULT_SETTINGS.images, ...JSON.parse(settingsMap.images) }; } catch { /* keep default */ }
+    }
+    if (settingsMap.content) {
+      try { settings.content = { ...DEFAULT_SETTINGS.content, ...JSON.parse(settingsMap.content) }; } catch { /* keep default */ }
+    }
+
+    return settings;
+  } catch (error) {
+    // If database is not available, fall back to defaults
+    console.error("Failed to get settings from database:", error);
     return DEFAULT_SETTINGS;
   }
 }
 
-export function saveSettings(settings: Partial<AdminSettings>): AdminSettings {
-  ensureDataDir();
-  const current = getSettings();
+async function initializeDefaultSettings(): Promise<void> {
+  const sections = {
+    hotel: JSON.stringify(DEFAULT_SETTINGS.hotel),
+    currency: JSON.stringify(DEFAULT_SETTINGS.currency),
+    rooms: JSON.stringify(DEFAULT_SETTINGS.rooms),
+    social: JSON.stringify(DEFAULT_SETTINGS.social),
+    contact: JSON.stringify(DEFAULT_SETTINGS.contact),
+    images: JSON.stringify(DEFAULT_SETTINGS.images),
+    content: JSON.stringify(DEFAULT_SETTINGS.content),
+  };
+
+  for (const [key, value] of Object.entries(sections)) {
+    await db.adminSetting.upsert({
+      where: { key },
+      update: { value },
+      create: { key, value },
+    });
+  }
+}
+
+export async function saveSettings(settings: Partial<AdminSettings>): Promise<AdminSettings> {
+  const current = await getSettings();
   const merged = { ...current, ...settings };
 
   // Deep merge nested objects
@@ -235,64 +247,124 @@ export function saveSettings(settings: Partial<AdminSettings>): AdminSettings {
   if (settings.content) merged.content = { ...current.content, ...settings.content };
   if (settings.rooms) merged.rooms = settings.rooms;
 
-  fs.writeFileSync(SETTINGS_FILE, JSON.stringify(merged, null, 2), "utf-8");
-  return merged;
-}
+  // Save each section to database
+  const sections: Record<string, string> = {
+    hotel: JSON.stringify(merged.hotel),
+    currency: JSON.stringify(merged.currency),
+    rooms: JSON.stringify(merged.rooms),
+    social: JSON.stringify(merged.social),
+    contact: JSON.stringify(merged.contact),
+    images: JSON.stringify(merged.images),
+    content: JSON.stringify(merged.content),
+  };
 
-// Session management (simple token-based)
-interface Session {
-  token: string;
-  expires: number;
-}
-
-export function createSession(): string {
-  ensureDataDir();
-  const token = crypto.randomBytes(32).toString("hex");
-  const expires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-
-  let sessions: Session[] = [];
-  if (fs.existsSync(SESSIONS_FILE)) {
-    try {
-      sessions = JSON.parse(fs.readFileSync(SESSIONS_FILE, "utf-8"));
-    } catch {
-      sessions = [];
+  for (const [key, value] of Object.entries(sections)) {
+    if (settings[key as keyof Partial<AdminSettings>] !== undefined) {
+      await db.adminSetting.upsert({
+        where: { key },
+        update: { value },
+        create: { key, value },
+      });
     }
   }
 
-  // Clean expired sessions
-  sessions = sessions.filter((s) => s.expires > Date.now());
-  sessions.push({ token, expires });
+  return merged;
+}
 
-  fs.writeFileSync(SESSIONS_FILE, JSON.stringify(sessions, null, 2), "utf-8");
+// ============ Password Management (PostgreSQL) ============
+
+function hashPassword(password: string): string {
+  return crypto.createHash("sha256").update(password).digest("hex");
+}
+
+const DEFAULT_PASSWORD_HASH = hashPassword("admin2024");
+
+export async function getPasswordHash(): Promise<string> {
+  try {
+    const record = await db.adminPassword.findFirst();
+    if (!record) {
+      // Initialize default password
+      const created = await db.adminPassword.create({
+        data: { hash: DEFAULT_PASSWORD_HASH },
+      });
+      return created.hash;
+    }
+    return record.hash;
+  } catch (error) {
+    console.error("Failed to get password hash:", error);
+    return DEFAULT_PASSWORD_HASH;
+  }
+}
+
+export async function verifyPassword(password: string): Promise<boolean> {
+  const hash = await getPasswordHash();
+  return hashPassword(password) === hash;
+}
+
+export async function changePassword(currentPassword: string, newPassword: string): Promise<boolean> {
+  const valid = await verifyPassword(currentPassword);
+  if (!valid) return false;
+
+  const newHash = hashPassword(newPassword);
+
+  // Delete existing passwords and create new one
+  await db.adminPassword.deleteMany({});
+  await db.adminPassword.create({
+    data: { hash: newHash },
+  });
+
+  return true;
+}
+
+// ============ Session Management (PostgreSQL) ============
+
+export async function createSession(): Promise<string> {
+  const token = crypto.randomBytes(32).toString("hex");
+  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+  // Clean expired sessions
+  await db.adminSession.deleteMany({
+    where: { expires: { lt: new Date() } },
+  });
+
+  await db.adminSession.create({
+    data: { token, expires },
+  });
+
   return token;
 }
 
-export function verifySession(token: string): boolean {
+export async function verifySession(token: string): Promise<boolean> {
   if (!token) return false;
-  ensureDataDir();
-  if (!fs.existsSync(SESSIONS_FILE)) return false;
 
   try {
-    const sessions: Session[] = JSON.parse(fs.readFileSync(SESSIONS_FILE, "utf-8"));
-    return sessions.some((s) => s.token === token && s.expires > Date.now());
+    const session = await db.adminSession.findUnique({
+      where: { token },
+    });
+
+    if (!session) return false;
+    if (session.expires < new Date()) {
+      // Delete expired session
+      await db.adminSession.delete({ where: { token } });
+      return false;
+    }
+
+    return true;
   } catch {
     return false;
   }
 }
 
-export function destroySession(token: string): void {
-  ensureDataDir();
-  if (!fs.existsSync(SESSIONS_FILE)) return;
+export async function destroySession(token: string): Promise<void> {
   try {
-    let sessions: Session[] = JSON.parse(fs.readFileSync(SESSIONS_FILE, "utf-8"));
-    sessions = sessions.filter((s) => s.token !== token);
-    fs.writeFileSync(SESSIONS_FILE, JSON.stringify(sessions, null, 2), "utf-8");
+    await db.adminSession.delete({ where: { token } });
   } catch {
-    // ignore
+    // Session may not exist
   }
 }
 
-// Rate limiting (in-memory, resets on server restart)
+// ============ Rate Limiting (in-memory, resets on server restart) ============
+
 const loginAttempts = new Map<string, { count: number; blockedUntil: number }>();
 
 export function checkRateLimit(ip: string): { allowed: boolean; remainingAttempts: number } {
@@ -302,12 +374,10 @@ export function checkRateLimit(ip: string): { allowed: boolean; remainingAttempt
   }
 
   if (attempt.blockedUntil > Date.now()) {
-    const remainingMs = attempt.blockedUntil - Date.now();
     return { allowed: false, remainingAttempts: 0 };
   }
 
   if (attempt.count >= 3) {
-    // Reset after block period expired
     loginAttempts.delete(ip);
     return { allowed: true, remainingAttempts: 3 };
   }
@@ -320,7 +390,6 @@ export function recordFailedAttempt(ip: string): void {
   attempt.count += 1;
 
   if (attempt.count >= 3) {
-    // Block for 15 minutes
     attempt.blockedUntil = Date.now() + 15 * 60 * 1000;
   }
 

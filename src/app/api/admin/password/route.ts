@@ -4,7 +4,7 @@ import { changePassword, verifySession } from "@/lib/admin-settings";
 export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("admin_token")?.value;
-    if (!token || !verifySession(token)) {
+    if (!token || !(await verifySession(token))) {
       return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
     }
 
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const success = changePassword(currentPassword, newPassword);
+    const success = await changePassword(currentPassword, newPassword);
     if (!success) {
       return NextResponse.json(
         { error: "Le mot de passe actuel est incorrect" },

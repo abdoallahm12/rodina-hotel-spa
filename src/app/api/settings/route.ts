@@ -3,7 +3,7 @@ import { getSettings } from "@/lib/admin-settings";
 
 export async function GET() {
   try {
-    const settings = getSettings();
+    const settings = await getSettings();
     return NextResponse.json(settings);
   } catch {
     return NextResponse.json(

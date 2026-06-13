@@ -28,9 +28,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (verifyPassword(password)) {
+    const isValid = await verifyPassword(password);
+    if (isValid) {
       resetRateLimit(ip);
-      const token = createSession();
+      const token = await createSession();
       const response = NextResponse.json({ success: true, token });
       response.cookies.set("admin_token", token, {
         httpOnly: true,
