@@ -104,8 +104,8 @@ export default function EventsSection() {
             className="relative"
           >
             <img
-              src="/images/conference.png"
-              alt="MH Hotel conference room"
+              src="/images/conference-banquet.png"
+              alt="MH Hotel event space"
               className="w-full h-[600px] object-cover rounded-2xl"
             />
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent h-1/3 rounded-b-2xl" />

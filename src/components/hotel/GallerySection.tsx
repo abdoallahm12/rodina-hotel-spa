@@ -8,16 +8,20 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 const galleryImages = [
   { src: "/images/lobby.png", alt: "Grand Lobby & Reception", category: "Hotel" },
   { src: "/images/conference.png", alt: "Conference Room", category: "Hotel" },
+  { src: "/images/conference-banquet.png", alt: "Banquet Hall", category: "Hotel" },
   { src: "/images/room-standard.png", alt: "Room Service Breakfast", category: "Rooms" },
   { src: "/images/room-deluxe.png", alt: "Deluxe Room", category: "Rooms" },
   { src: "/images/room-suite.png", alt: "Executive Suite", category: "Rooms" },
+  { src: "/images/seafood.png", alt: "Seafood Platter", category: "Dining" },
   { src: "/images/rooftop-dining.png", alt: "Rooftop Dining", category: "Dining" },
   { src: "/images/terrace.png", alt: "Garden Terrace", category: "Dining" },
+  { src: "/images/pool.png", alt: "Indoor Pool", category: "Amenities" },
+  { src: "/images/pool-lounge.png", alt: "Pool Lounge", category: "Amenities" },
+  { src: "/images/spa-treatment.png", alt: "Spa Treatment", category: "Amenities" },
+  { src: "/images/hammam.png", alt: "Hammam & Bath", category: "Amenities" },
+  { src: "/images/spa-salon.png", alt: "Beauty Salon", category: "Amenities" },
   { src: "/images/terrace.png", alt: "Outdoor Lounge", category: "Amenities" },
-  { src: "/images/conference.png", alt: "Meeting Room", category: "Events" },
-  { src: "/images/lobby.png", alt: "Hotel Entrance", category: "Hotel" },
-  { src: "/images/rooftop-dining.png", alt: "Terrace Breakfast", category: "Dining" },
-  { src: "/images/room-deluxe.png", alt: "Suite Living Area", category: "Rooms" },
+  { src: "/images/conference-banquet.png", alt: "Event Space", category: "Events" },
 ];
 
 const categories = ["All", "Hotel", "Rooms", "Dining", "Amenities", "Events"];

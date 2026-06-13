@@ -12,55 +12,50 @@ import {
   Sparkles,
 } from "lucide-react";
 
-const amenities = [
+const visualAmenities = [
   {
-    icon: Waves,
-    title: "Infinity Pool",
+    image: "/images/pool.png",
+    title: "Indoor Pool",
     description:
-      "Dive into crystal-clear waters with breathtaking panoramic views. Our heated infinity pool offers a serene escape, complemented by poolside service and private cabanas.",
+      "Dive into crystal-clear waters surrounded by lush palm trees and a living green wall. Our heated indoor pool offers a resort-like escape with comfortable lounge chairs and a serene atmosphere.",
   },
   {
-    icon: Sparkles,
+    image: "/images/spa-treatment.png",
     title: "Luxury Spa",
     description:
-      "Rejuvenate body and mind at our world-class spa. Expert therapists deliver bespoke treatments using premium organic products in tranquil, candlelit treatment rooms.",
+      "Rejuvenate body and mind at our world-class spa. Expert therapists deliver bespoke treatments using premium organic products in tranquil, candlelit rooms with aromatic oils and flower petal rituals.",
   },
   {
-    icon: Dumbbell,
-    title: "Fitness Center",
+    image: "/images/hammam.png",
+    title: "Hammam & Wellness",
     description:
-      "State-of-the-art equipment and personal trainers await in our modern fitness center. Open 24/7 with yoga studio, steam rooms, and nutritional guidance.",
+      "Experience the ancient art of purification in our exquisite marble hammam. Featuring ornate basins, ambient candlelight, and traditional cleansing rituals in an opulent setting.",
   },
   {
-    icon: UtensilsCrossed,
-    title: "Fine Dining",
+    image: "/images/spa-salon.png",
+    title: "Beauty Salon",
     description:
-      "Savor exquisite cuisine crafted by Michelin-starred chefs across our three signature restaurants. From modern European to authentic Asian flavors.",
+      "Pamper yourself at our full-service beauty salon offering manicures, pedicures, and bespoke beauty treatments in an elegant setting with premium products and expert stylists.",
   },
   {
-    icon: Wine,
-    title: "Rooftop Bar",
+    image: "/images/rooftop-dining.png",
+    title: "Rooftop Dining",
     description:
-      "Sip handcrafted cocktails under the stars at our rooftop bar. Featuring live jazz, panoramic city views, and an award-winning mixology program.",
+      "Savor exquisite cuisine with breathtaking panoramic views. Our rooftop restaurant offers a culinary experience like no other, with fresh ingredients and stunning city vistas.",
   },
   {
-    icon: ConciergeBell,
-    title: "24/7 Concierge",
+    image: "/images/conference.png",
+    title: "Meeting Rooms",
     description:
-      "Our dedicated concierge team anticipates your every need. From restaurant reservations to private tours, we ensure every moment is extraordinary.",
+      "State-of-the-art conference facilities with cutting-edge AV technology, high-speed WiFi, and dedicated event coordinators for seamless corporate gatherings.",
   },
-  {
-    icon: Car,
-    title: "Valet Parking",
-    description:
-      "Complimentary valet service ensures seamless arrivals and departures. Our secure underground facility accommodates vehicles of all sizes.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Premium Security",
-    description:
-      "Your safety is paramount. We employ round-the-clock security, smart room locks, and discreet surveillance throughout the property.",
-  },
+];
+
+const iconAmenities = [
+  { icon: ConciergeBell, title: "24/7 Concierge", description: "Our dedicated concierge team anticipates your every need." },
+  { icon: Car, title: "Valet Parking", description: "Complimentary valet service for seamless arrivals and departures." },
+  { icon: Dumbbell, title: "Fitness Center", description: "Modern equipment and personal trainers, open 24/7." },
+  { icon: ShieldCheck, title: "Premium Security", description: "Round-the-clock security and smart room locks throughout." },
 ];
 
 export default function AmenitiesSection() {
@@ -88,26 +83,57 @@ export default function AmenitiesSection() {
           </p>
         </motion.div>
 
-        {/* Amenities Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {amenities.map((amenity, i) => (
+        {/* Visual Amenities Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          {visualAmenities.map((amenity, i) => (
             <motion.div
               key={amenity.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
               viewport={{ once: true }}
-              className="group bg-card rounded-xl p-6 border border-border hover:border-gold/40 transition-all duration-500 hover:luxury-shadow cursor-pointer"
+              className="group relative rounded-xl overflow-hidden h-[320px] cursor-pointer border border-border hover:border-gold/40 transition-all duration-500"
             >
-              <div className="w-14 h-14 rounded-xl gold-gradient flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                <amenity.icon className="w-7 h-7 text-charcoal" />
+              <img
+                src={amenity.image}
+                alt={amenity.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <h3 className="text-lg font-[var(--font-playfair)] font-bold text-white mb-2">
+                  {amenity.title}
+                </h3>
+                <p className="text-white/70 text-sm leading-relaxed font-[var(--font-lato)] line-clamp-3">
+                  {amenity.description}
+                </p>
               </div>
-              <h3 className="text-lg font-[var(--font-playfair)] font-bold text-foreground mb-3">
-                {amenity.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed font-[var(--font-lato)]">
-                {amenity.description}
-              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Icon Amenities Row */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {iconAmenities.map((amenity, i) => (
+            <motion.div
+              key={amenity.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              viewport={{ once: true }}
+              className="group bg-card rounded-xl p-5 border border-border hover:border-gold/40 transition-all duration-500 hover:luxury-shadow cursor-pointer flex items-center gap-4"
+            >
+              <div className="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
+                <amenity.icon className="w-6 h-6 text-charcoal" />
+              </div>
+              <div>
+                <h3 className="font-[var(--font-playfair)] font-bold text-foreground text-sm">
+                  {amenity.title}
+                </h3>
+                <p className="text-muted-foreground text-xs font-[var(--font-lato)] mt-0.5">
+                  {amenity.description}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
