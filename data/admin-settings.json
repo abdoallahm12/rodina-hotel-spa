@@ -1,0 +1,93 @@
+{
+  "hotel": {
+    "name": "RODINA Hotel & SPA",
+    "tagline": "L'Art de Vivre",
+    "description": "Where timeless elegance meets modern luxury. Experience a world of refined comfort, impeccable service, and unforgettable moments.",
+    "logoLetter": "R"
+  },
+  "currency": {
+    "code": "USD",
+    "symbol": "$",
+    "taxRate": 9
+  },
+  "rooms": [
+    {
+      "id": "classique",
+      "name": "Chambre Classique",
+      "price": 166,
+      "priceSingle": 141,
+      "priceTriple": 202,
+      "totalRooms": 50
+    },
+    {
+      "id": "superieure",
+      "name": "Chambre Supérieure",
+      "price": 198,
+      "priceSingle": 167,
+      "totalRooms": 10
+    },
+    {
+      "id": "premium",
+      "name": "Chambre Premium",
+      "price": 224,
+      "priceSingle": 193,
+      "totalRooms": 10
+    },
+    {
+      "id": "junior-suite",
+      "name": "Suite Junior",
+      "price": 251,
+      "priceSingle": 220,
+      "totalRooms": 10
+    },
+    {
+      "id": "romantique",
+      "name": "Suite Romantique",
+      "price": 320,
+      "totalRooms": 5
+    },
+    {
+      "id": "familiale",
+      "name": "Chambre Familiale",
+      "price": 280,
+      "totalRooms": 8
+    }
+  ],
+  "social": {
+    "facebook": "",
+    "instagram": "",
+    "whatsapp": "",
+    "tiktok": "",
+    "youtube": ""
+  },
+  "contact": {
+    "phone": "+1 (234) 567-890",
+    "email": "info@rodinahotel.com",
+    "address": "City Center, Main Boulevard"
+  },
+  "images": {
+    "heroBg": "/images/hotel-exterior.png",
+    "aboutMain": "/images/lobby.png",
+    "aboutInset": "/images/room-classic.png",
+    "spaMain": "/images/spa-treatment.png"
+  },
+  "content": {
+    "heroWelcome": "Bienvenue à",
+    "heroTitle1": "RODINA",
+    "heroTitle2": "Hotel & SPA",
+    "heroSubtitle": "Là où l'élégance intemporelle rencontre le luxe moderne. Vivez un monde de confort raffiné, de service irréprochable et de moments inoubliables.",
+    "aboutLabel": "Notre Histoire",
+    "aboutTitle1": "Un Héritage de",
+    "aboutTitle2": "Luxe",
+    "aboutP1": "Depuis sa création, RODINA Hotel & SPA est un phare de sophistication et de chaleur au cœur de la ville. Notre engagement envers l'excellence transcende l'hospitalité ordinaire, offrant à chaque invité une expérience sur mesure qui mêle élégance intemporelle et confort contemporain.",
+    "aboutP2": "Chaque détail au RODINA Hotel & SPA a été pensé avec soin, des mobiliers sélectionnés avec goût dans nos suites aux ingrédients locaux de nos restaurants. Nous croyons que le véritable luxe réside dans l'art de l'anticipation, où chaque besoin est comblé avant même d'être exprimé, et chaque instant devient un souvenir précieux.",
+    "roomsLabel": "Hébergement",
+    "roomsTitle1": "Chambres &",
+    "roomsTitle2": "Suites",
+    "roomsSubtitle": "Chaque chambre et suite est un sanctuaire de confort, conçu avec une attention minutieuse aux détails et orné des plus beaux matériaux.",
+    "footerCtaTitle": "Prêt à Vivre le Luxe ?",
+    "footerCtaText": "Réservez votre séjour aujourd'hui et découvrez pourquoi RODINA Hotel & SPA est la destination de choix pour les voyageurs exigeants du monde entier.",
+    "footerCtaButton": "Réservez Votre Chambre",
+    "footerDescription": "Là où l'élégance intemporelle rencontre le luxe moderne. RODINA Hotel & SPA est le sommet de l'hospitalité sophistiquée, offrant des expériences inégalées au cœur de la ville."
+  }
+}
